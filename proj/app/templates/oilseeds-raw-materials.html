@@ -1,0 +1,634 @@
+{% load staticfiles %} 
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Icons-->
+    <link rel="stylesheet" href="https://unpkg.com/@coreui/icons/css/coreui-icons.min.css">
+    <link href="{% static 'node_modules/@coreui/icons/css/coreui-icons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'node_modules/flag-icon-css/css/flag-icon.min.css' %}" rel="stylesheet">
+    <link href="{% static 'node_modules/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'node_modules/simple-line-icons/css/simple-line-icons.css' %}" rel="stylesheet">
+    <!-- CoreUI CSS -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'vendors/pace-progress/css/pace.min.css' %}" rel="stylesheet">
+  </head>
+  <style>  
+    input[type=number]::-webkit-inner-spin-button {
+        opacity: 1
+    }
+  </style>
+
+  <!-- Side bar -->
+  <body class="app sidebar-show sidebar-fixed">
+    <div class="app-body">
+      <div class="sidebar sidebar-fixed ">
+        <nav class="sidebar-nav">
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link" href="home" onclick="$(this).closest('form').submit()">
+                <img src="{% static 'img/home.png' %}" width="30" height="20"> Home
+              </a>
+            </li>
+            <li class="nav-item nav-dropdown">
+              <a class="nav-link nav-dropdown-toggle" href="#">
+                <img src="{% static 'img/wheat.png' %}" width="30" height="20"> Oilseeds Value Chain 
+              </a>
+              <ul class="nav-dropdown-items">
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds">
+                    <i class="nav-icon icon-drop"></i> Overview </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds_raw_materials">
+                    <i class="nav-icon icon-drop"></i> Raw Materials </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds_products">
+                    <i class="nav-icon icon-drop"></i> Products </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds_assets">
+                    <i class="nav-icon icon-drop"></i> Asset Configuration </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds_optimisation">
+                <i class="nav-icon icon-drop"></i> Optimisation </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds_result">
+                <i class="nav-icon icon-drop"></i> Results </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds_financials">
+                <i class="nav-icon icon-drop"></i> Financial Statement </a>
+                </li>
+              </ul>
+            </li>  
+          </ul>
+        </nav>      
+      </div>
+      <!-- Main Body -->
+      <main class="main"> 
+        <!-- Breadcrumb -->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">Home</li>
+          <li class="breadcrumb-item">
+            <a href="oilseeds">{{title}}</a>
+          </li>
+          <li class="breadcrumb-item active">Raw Materials</li>
+        </ol>
+        <!-- Main Body Text -->
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-body">
+                  <h4>{{title}}</h4>
+                  <p> {{desc}} </p>
+                  <hr>
+                  <form id="rm-form" action="" method="POST">
+                  {% csrf_token %}
+                  <div class="row">
+                    {% for key, item in raw_materials.items %}
+                    <div class="col-3" >
+                      <div class="row-11">
+                        {% with item|add:"tab" as temp %}
+                        <button class="btn btn-sm btn-light btn-square btn-block" id='{{item}}' type="button" onclick="openTab('{{item}}')"> {{item}} </button>
+                        {% endwith %}
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="col-8">
+                      <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+                      <button class="btn btn-sm btn-light" type="button" onclick="reset_function()" style="float: center; width: 100px"> Reset </button>
+                    </div>
+                    <div class="col" style="border-left: 1px solid #eee" id="{{temp}}">
+                      <div style="text-align: center; border-bottom: 1px solid #eee; padding-bottom: 0.4rem">
+                        <b style="font-size: 1.0rem; float: center; "> CALCULATE LANDED COST </b>
+                      </div>
+                      <div style="text-align: center; padding-top: 0.3rem">
+                         1. Define Market Assumptions
+                        <p style="font-size: 0.75rem; text-align: center; color: #929191; " align="justify"> Define the expected high and low market conditions in the short, medium and long term</p>
+                      </div>
+                      <div class="row-11">
+                        <table style="table-layout: auto; line-height: 13px" class="fixed table-responsive table-secondary table">
+                          <tr>
+                            <th style="width: 8px; padding: 0.7rem">  </th>
+                            <th style="padding: 0.33rem"> Short Term <br/><small> 0-2 years </small> </th>
+                            <th style="padding: 0.33rem"> Medium Term <br/><small> 2-10 years </small></th>
+                            <th style="padding: 0.33rem"> Long Term <br/><small> >10 years </small> </th>
+                          </tr>
+                          <tbody>
+                            <tr>
+                              <td style="width: 8px; padding-right: 0.7rem; font-size: 0.8rem; text-align: center"> High </td>
+                              <td style="padding: 0.3rem"><input class="form-control" style="font-size: 0.85rem;" id="high-st" type="number" step="0.05" value="0.00" min="0.00"/> </td>
+                              <td style="padding: 0.3rem"><input class="form-control" style="font-size: 0.85rem;" id="high-mt" type="number" step="0.05" value="0.00" min="0.00"/> </td>
+                              <td style="padding: 0.3rem"><input class="form-control" style="font-size: 0.85rem;" id="high-lt" type="number" step="0.05" value="0.00" min="0.00"/> </td>
+                            </tr>
+                            <tr>
+                              <td style="width: 8px; padding-right: 0.7rem; font-size: 0.8rem; text-align: center"> Low </td>
+                              <td style="padding: 0.3rem"><input class="form-control" style="font-size: 0.85rem;" id="low-st"  type="number" step="0.05" value="0.00" max="0.00"/> </td>
+                              <td style="padding: 0.3rem"><input class="form-control" style="font-size: 0.85rem;" id="low-mt"  type="number" step="0.05" value="0.00" max="0.00"/> </td>
+                              <td style="padding: 0.3rem"><input class="form-control" style="font-size: 0.85rem;" id="low-lt"  type="number" step="0.05" value="0.00" max="0.00"/> </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="row-11">
+                        <div style="text-align: center; padding-bottom: 0.6rem">
+                          2. Define Additional Assumptions 
+                          <p style="font-size: 0.75rem; text-align: center; color: #929191; " align="justify"> Account for quality premiums or discounts on the raw materials and the expected transport costs</p>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-md-5 col-form-label" for="quality-prem" style="font-size: 0.85rem">Quality Premium</label>
+                          <div class="col-md-7">
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text" style="font-size: 0.85rem">$</span>
+                              </div>
+                              <input class="form-control" type="number" id="quality-prem" value="0.00" step="0.5">
+                              <div class="input-group-append">
+                                <span class="input-group-text" style="font-size: 0.8rem">/MT</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-md-5 col-form-label" for="transport-cost" style="font-size: 0.85rem">Transport Cost</label>
+                          <div class="col-md-7">
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text" style="font-size: 0.85rem">$</span>
+                              </div>
+                              <input class="form-control" type="number" id="transport-cost" value="0.00" step="0.5" min="0.00">
+                              <div class="input-group-append">
+                                <span class="input-group-text" style="font-size: 0.8rem">/MT</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div style="text-align: center; padding-bottom: 0.6rem">
+                          3. Select Commodity Price Chart 
+                          <p style="font-size: 0.75rem; text-align: center; color: #929191; " align="justify"> Select the price chart that best reflects the expected raw material costs</p>
+                        </div>      
+                        <div class="row-12" style="float:center; width: 100%">
+                          <button id="select-high" class="selection btn btn-sm btn-light btn-block" type="button" name='High'> </button>
+                          <button id="select-avg" class="selection btn btn-sm btn-light btn-block" type="button" name=''> </button>
+                          <button id="select-low" class="selection btn btn-sm btn-light btn-block" type="button" name='Low'> </button>
+                        </div>
+                        <p></p>
+                      </div>
+                    </div>
+                  </div>
+                    <button id="submit" class="submit btn btn-primary" style="float: right" type="submit" onclick="ajax_call()"> Next: Products </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  <!-- Scripts for page to run.. -->
+  <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@coreui/coreui/dist/js/coreui.min.js"></script>
+  <script src="https://code.highcharts.com/highcharts.js"> </script>
+  <script src="https://code.highcharts.com/modules/exporting.js"> </script>
+  <script src="https://code.highcharts.com/modules/export-data.js"> </script>
+  <script language="javascript">
+
+    var chart = Highcharts.chart('container', 
+      {chart: {type: 'line'},
+        title: {text: 'Oilseed Prices'}, 
+        yAxis: {title: {text: 'Prices (USD/unit*)'}},
+        tooltip: {valueDecimals: 2, valuePrefix: '$', valueSuffix: ' USD'},
+        xAxis: {categories: {{xaxis|safe}}},
+        series: [
+          {name: 'Rapeseed Low',
+          data: {{rapeseed|safe}},
+          visible: false,
+          showInLegend: ''},
+          {name: 'Rapeseed',
+          data: {{rapeseed|safe}},},
+          {name: 'Rapeseed High',
+          data: {{rapeseed|safe}},
+          visible: false,
+          showInLegend: ''},
+          {name: 'Sunflower Low',
+          data: {{sunflower|safe}},
+          visible: false,
+          showInLegend: ''},
+          {name: 'Sunflower',
+          data: {{sunflower|safe}},
+          visible: false,
+          showInLegend: ''},
+          {name: 'Sunflower High',
+          data: {{sunflower|safe}},
+          visible: false,
+          showInLegend: ''},
+          {name: 'Soya Low',
+          data: {{soya|safe}},
+          visible: false,
+          showInLegend: ''},
+          {name: 'Soya',
+          data: {{soya|safe}},
+          visible: false,
+          showInLegend: ''},
+          {name: 'Soya High',
+          data: {{soya|safe}},
+          visible: false,
+          showInLegend: ''},
+          {name: '',
+          data: {{rapeseed|safe}},
+          visible: false,
+          showInLegend: ''},
+          {name: '',
+          data: {{sunflower|safe}},
+          visible: false,
+          showInLegend: ''},
+          {name: '',
+          data: {{soya|safe}},
+          visible: false,
+          showInLegend: ''},
+          ]
+        });
+
+    var href = document.getElementsByTagName("a")
+    var input = document.getElementsByTagName("input")
+    var button = document.getElementsByTagName("button")
+    var high_st = document.getElementById("high-st")
+    var high_mt = document.getElementById("high-mt")
+    var high_lt = document.getElementById("high-lt")
+    var low_st = document.getElementById("low-st")
+    var low_mt = document.getElementById("low-mt")
+    var low_lt = document.getElementById("low-lt")
+    var qual = document.getElementById("quality-prem")
+    var trans = document.getElementById("transport-cost")
+    var comm = Number(0)
+    var input_val = {{input_val|safe}}
+    // var input_val = [{'high-st': '0.00', 'high-mt': '0.00', 'high-lt': '0.00', 'low-st': '0.00', 'low-mt': '0.00', 'low-lt': '0.00', 'quality-prem': '0.00', 'transport-cost': '0.00', },{'high-st': '0.00', 'high-mt': '0.00', 'high-lt': '0.00', 'low-st': '0.00', 'low-mt': '0.00', 'low-lt': '0.00', 'quality-prem': '0.00', 'transport-cost': '0.00', },{'high-st': '0.00', 'high-mt': '0.00', 'high-lt': '0.00', 'low-st': '0.00', 'low-mt': '0.00', 'low-lt': '0.00', 'quality-prem': '0.00', 'transport-cost': '0.00', }]
+    var selection = document.getElementsByClassName("selection")
+    var selected = {{selected|safe}}
+    sub_button = document.getElementById("submit")
+
+    for (var i =0; i < href.length; i++){
+      href[i].addEventListener("click", function(){
+        ajax_call()
+      })
+    }
+
+    window.addEventListener('load',
+      function(){
+        if (Object.keys(input_val[0]).length > 7){
+          openTab("Rapeseed")
+        }
+        else {
+          console.log("actually we refresh the data")
+          input_val = [{'high-st': '0.00', 'high-mt': '0.00', 'high-lt': '0.00', 'low-st': '0.00', 'low-mt': '0.00', 'low-lt': '0.00', 'quality-prem': '0.00', 'transport-cost': '0.00', },{'high-st': '0.00', 'high-mt': '0.00', 'high-lt': '0.00', 'low-st': '0.00', 'low-mt': '0.00', 'low-lt': '0.00', 'quality-prem': '0.00', 'transport-cost': '0.00', },{'high-st': '0.00', 'high-mt': '0.00', 'high-lt': '0.00', 'low-st': '0.00', 'low-mt': '0.00', 'low-lt': '0.00', 'quality-prem': '0.00', 'transport-cost': '0.00', }]
+        }
+        if (selected.length == 3){
+          sub_button.disabled = false
+        }
+
+      })
+
+    // Helper function for updating charts
+    function update_chart(xdata, ydata, ind, st, mt, lt, qual, trans){
+      chart.series[ind].setVisible(true,true)
+      chart.series[ind].update({showInLegend: true})
+      temp = []
+
+      for (index=0; index < 2; index++){
+        test = [xdata[index], (ydata[index]+st) + qual + trans]
+        temp.push(test)
+      }
+      for (index = 2; index < 11; index ++){
+        test = [xdata[index], (ydata[index]+mt) + qual + trans]
+        temp.push(test)
+      }
+      for (index = 11; index < ydata.length; index ++){
+        test = [xdata[index], (ydata[index]+lt) + qual + trans]
+        temp.push(test)
+      }
+      chart.series[ind].update({
+        data: temp
+      })
+    }
+
+    function chart_update(){
+      var xdata = chart.series[9+comm]['xData']
+      var ydata = chart.series[9+comm]['yData']
+
+      quali = Number(input_val[comm]['quality-prem'])
+      transp = Number(input_val[comm]['transport-cost'])
+      h_st = Number(input_val[comm]['high-st'])
+      h_mt = Number(input_val[comm]['high-mt'])
+      h_lt = Number(input_val[comm]['high-lt'])
+      l_st = Number(input_val[comm]['low-st'])
+      l_mt = Number(input_val[comm]['low-mt'])
+      l_lt = Number(input_val[comm]['low-lt'])
+
+      update_chart(xdata, ydata, 2+3*comm, h_st, h_mt, h_lt, quali, transp)
+      update_chart(xdata, ydata, 0+3*comm, l_st, l_mt, l_lt, quali, transp)
+      update_chart(xdata, ydata, 1+3*comm, 0, 0, 0, quali, transp)
+    }
+
+    // Helper function that listens to input changes and updates charts
+    for (var i=0; i < input.length; i++){
+      input[i].addEventListener("change", function(){
+        var xdata = chart.series[9+comm]['xData']
+        var ydata = chart.series[9+comm]['yData']
+        input_val[comm][this.id] = this.value
+
+        quali = Number(input_val[comm]['quality-prem'])
+        transp = Number(input_val[comm]['transport-cost'])
+        h_st = Number(input_val[comm]['high-st'])
+        h_mt = Number(input_val[comm]['high-mt'])
+        h_lt = Number(input_val[comm]['high-lt'])
+        l_st = Number(input_val[comm]['low-st'])
+        l_mt = Number(input_val[comm]['low-mt'])
+        l_lt = Number(input_val[comm]['low-lt'])
+
+        if(this.id.includes("high")){
+          index = 2+3*comm
+          update_chart(xdata, ydata, index, h_st, h_mt, h_lt, quali, transp)
+        } else if (this.id.includes("low")){
+          console.log("here low")
+          index = 0+3*comm
+          update_chart(xdata, ydata, index, l_st, l_mt, l_lt, quali, transp)
+        } else {
+          update_chart(xdata, ydata, 2+3*comm, h_st, h_mt, h_lt, quali, transp)
+          update_chart(xdata, ydata, 0+3*comm, l_st, l_mt, l_lt, quali, transp)
+          update_chart(xdata, ydata, 1+3*comm, 0, 0, 0, quali, transp)
+        }
+      })
+    }
+
+    button[0].classList.toggle("active")
+    var active = button[0].id
+
+    selection[0].innerHTML = "Rapeseed High" 
+    selection[1].innerHTML = "Rapeseed" 
+    selection[2].innerHTML = "Rapeseed Low"
+    comm_dict = {0: "Rapeseed", 1: "Sunflower", 2: "Soya"} 
+
+    // Helper function on tab changes - buttons, charts, previous inputs
+    function openTab(tabName){
+      active = tabName
+      $("#rm-form")[0].reset()
+      button[0].classList.remove("active")
+      button[1].classList.remove("active")
+      button[2].classList.remove("active")
+
+      $(chart.series).each(function(){
+        this.setVisible(false, false)
+        this.update({showInLegend: false})
+      })
+
+      for(count in comm_dict){
+        if(active.includes(comm_dict[count])){
+          comm = Number(count)
+        }  
+      }
+
+      for(var j=0; j<selection.length; j++){
+          selection[j].innerHTML = comm_dict[comm] + " " + selection[j].name
+          selection[j].classList.remove("active")
+        } 
+
+      button[comm].classList.toggle("active")
+      //Loads previously entered input
+      for(var key in input_val[comm]){
+        if(key=='choice'){
+          s_button = document.getElementById(input_val[comm][key])
+          s_button.classList.toggle("active")
+        } else {
+          update_i = document.getElementById(key)
+          console.log(update_i)
+          update_i.value = input_val[comm][key]
+          console.log(input_val[comm][key])
+        }
+      }
+      chart_update()
+      chart.series[0+3*comm].setVisible(true, true)
+      chart.series[1+3*comm].setVisible(true, true)
+      chart.series[2+3*comm].setVisible(true, true)
+      chart.series[1+3*comm].update({showInLegend: true})
+      chart.series[0+3*comm].update({showInLegend: true})
+      chart.series[2+3*comm].update({showInLegend: true})
+    }
+
+    // function openTab(tabName, element){
+    //   active = tabName
+    //   $("#rm-form")[0].reset()
+    //   if (active.includes("Rapeseed")){
+    //     $(chart.series).each(function(){
+    //       this.setVisible(false, false)
+    //       this.update({showInLegend: false})
+    //     })
+    //     comm = Number(0)
+    //     button[0].classList.toggle("active")
+    //     button[1].classList.remove("active")
+    //     button[2].classList.remove("active")
+    //     //Update selection button text
+    //     for(var j=0; j<selection.length; j++){
+    //       selection[j].innerHTML = "Rapeseed " + selection[j].name
+    //       selection[j].classList.remove("active")
+    //     }
+    //     //Loads previously entered input
+    //     for(var key in input_val[0]){
+    //       if(key=='choice'){
+    //         s_button = document.getElementById(input_val[0][key])
+    //         s_button.classList.toggle("active")
+    //       } else {
+    //         update_i = document.getElementById(key)
+    //         update_i.value = input_val[0][key]
+    //       }
+    //     }
+    //     chart.series[1+3*comm].setVisible(true, true)
+    //     chart.series[1+3*comm].update({showInLegend: true})
+    //     chart.series[0+3*comm].update({showInLegend: true})
+    //     chart.series[2+3*comm].update({showInLegend: true})
+    //   } else if (active.includes("Sunflower")){
+    //     $(chart.series).each(function(){
+    //       this.setVisible(false, false)
+    //       this.update({showInLegend: false})
+    //     })
+    //     comm = Number(1)
+    //     button[0].classList.remove("active")
+    //     button[1].classList.toggle("active")
+    //     button[2].classList.remove("active")
+    //     //Update selection button text
+    //     for(var j=0; j<selection.length; j++){
+    //       selection[j].innerHTML = "Sunflower " + selection[j].name
+    //       selection[j].classList.remove("active")
+    //     }
+    //     //Loads previously entered input
+    //     for(var key in input_val[1]){
+    //       if(key=='choice'){
+    //         s_button = document.getElementById(input_val[1][key])
+    //         s_button.classList.toggle("active")
+    //       } else {
+    //         update_i = document.getElementById(key)
+    //         update_i.value = input_val[1][key]
+    //       }
+    //     }
+    //     chart.series[1+3*comm].setVisible(true, true)
+    //     chart.series[1+3*comm].update({showInLegend: true})
+    //     chart.series[0+3*comm].update({showInLegend: true})
+    //     chart.series[2+3*comm].update({showInLegend: true})
+    //   } else if (active.includes("Soy")){
+    //     $(chart.series).each(function(){
+    //       this.setVisible(false, false)
+    //       this.update({showInLegend: false})
+    //     })
+    //     comm = Number(2)
+    //     button[0].classList.remove("active")
+    //     button[1].classList.remove("active")
+    //     button[2].classList.toggle("active")
+    //     //Update selection button text
+    //     for(var j=0; j<selection.length; j++){
+    //       selection[j].innerHTML = "Soya " + selection[j].name
+    //       selection[j].classList.remove("active")
+    //     }
+    //     //Loads previously entered input
+    //     for(var key in input_val[2]){
+    //       if(key=='choice'){
+    //         s_button = document.getElementById(input_val[2][key])
+    //         s_button.classList.toggle("active")
+    //       } else {
+    //         update_i = document.getElementById(key)
+    //         update_i.value = input_val[2][key]
+    //       }
+    //     }
+    //     chart.series[1+3*comm].setVisible(true, true)
+    //     chart.series[1+3*comm].update({showInLegend: true})
+    //     chart.series[0+3*comm].update({showInLegend: true})
+    //     chart.series[2+3*comm].update({showInLegend: true})
+    //   }
+    // }
+    
+
+    function reset_function(){
+      chart.series[0].update({data: {{rapeseed|safe}}})
+      chart.series[1].update({data: {{rapeseed|safe}}})
+      chart.series[2].update({data: {{rapeseed|safe}}})
+      chart.series[3].update({data: {{sunflower|safe}}})
+      chart.series[4].update({data: {{sunflower|safe}}})
+      chart.series[5].update({data: {{sunflower|safe}}})
+      chart.series[6].update({data: {{soya|safe}}})
+      chart.series[7].update({data: {{soya|safe}}})
+      chart.series[8].update({data: {{soya|safe}}})
+      $("#rm-form")[0].reset()
+    }
+    
+    for (var j=0; j<selection.length ; j++){
+      selection[j].addEventListener("click", function(){
+        selected[comm] = {'title': '', 'ydata': ''}
+        selected[comm]['title'] = this.innerHTML
+        selection[0].classList.remove("active")
+        selection[1].classList.remove("active")
+        selection[2].classList.remove("active")
+        this.classList.toggle("active")
+        input_val[comm]['choice'] = this.id
+
+        if(this.id.includes("high")){
+          tdata = chart.series[2+3*comm].yData
+          selected[comm]['ydata'] = tdata
+        } else if(this.id.includes("avg")){
+          tdata = chart.series[1+3*comm].yData
+          selected[comm]['ydata'] = tdata
+        } else if(this.id.includes("low")){
+          tdata = chart.series[0+3*comm].yData
+          selected[comm]['ydata'] = tdata
+        }
+        if(Object.keys(selected).length == 3){
+          sub_button.disabled = false
+        }
+      })
+    }
+
+    function ajax_call(){
+      $.ajax({
+        url: "/oilseeds_raw_materials",
+        type:"POST",
+        dataType:"json",
+        data: {csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value, 
+          input_val: JSON.stringify(input_val),
+          selected: JSON.stringify(selected)}
+      })
+    }
+
+    // Post button
+    // AJAX query posting input_val, selected
+
+    // $("button").click(function(){
+
+    //   if(this.className.includes("active")){
+    //     if(this.id.includes("main")){
+    //       var item = this.id.replace(" main","")
+    //       var temp = '[id^="' + item + '"]'
+    //       var buttons = document.querySelectorAll(temp)
+    //       for(index in chart.series){
+    //         if(chart.series[index].name.includes(item)){
+    //           chart.series[index].hide()
+    //         }
+    //       }
+    //       for(button in buttons){
+    //         buttons[button].classList.remove("active")
+    //       }
+    //     } else{
+    //       this.classList.remove("active")
+    //       for(index in chart.series){
+    //         if(chart.series[index].name == this.id){
+    //           chart.series[index].hide()
+    //         }
+    //       }
+    //       var temp = '[id^="' + this.id.split(" ")[0] + '"]'
+    //       var buttons = document.querySelectorAll(temp)
+    //       if(!buttons[1].className.includes("active") || !buttons[2].className.includes("active") || !buttons[3].className.includes("active")){
+    //         buttons[0].classList.remove("active")
+    //       }
+    //     }
+    //   }
+    //   else{
+    //     if(this.id.includes("main")){
+    //       var item = this.id.replace(" main","")
+    //       var temp = '[id^="' + item + '"]'
+    //       var buttons = document.querySelectorAll(temp)
+    //       for(index in chart.series){
+    //         if(chart.series[index].name.includes(item)){
+    //           chart.series[index].show()
+    //         }
+    //       }
+    //       for(button in buttons){
+    //         buttons[button].className += " active"
+    //       }
+    //     } else {
+    //       this.className += " active"
+    //       for(index in chart.series){
+    //         if(chart.series[index].name == this.id){
+    //           chart.series[index].show()
+    //         }
+    //       }
+    //       var temp = '[id^="' + this.id.split(" ")[0] + '"]'
+    //       var buttons = document.querySelectorAll(temp)
+    //       if(buttons[1].className.includes("active") && buttons[2].className.includes("active") && buttons[3].className.includes("active")){
+    //         buttons[0].className += " active"
+    //       }
+    //     }
+    //   }
+    // })
+  </script>
+  </body>
+</html>

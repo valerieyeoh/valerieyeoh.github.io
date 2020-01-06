@@ -1,0 +1,102 @@
+{% load staticfiles %} 
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Icons-->
+    <link rel="stylesheet" href="https://unpkg.com/@coreui/icons@0.4.1/css/free.min.css">
+    <!-- CoreUI CSS -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'vendors/pace-progress/css/pace.min.css' %}" rel="stylesheet">
+  </head>
+  <body class="app sidebar-show">
+    <div class="app-body">
+      <div class="sidebar">
+        <nav class="sidebar-nav">
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link" href="home">
+                <img src="{% static 'img/home.png' %}" width="30" height="20"> Home</a>
+            </li>
+            <li class="nav-item nav-dropdown">
+              <a class="nav-link nav-dropdown-toggle" href="#">
+                <img src="{% static 'img/wheat.png' %}" width="30" height="20"> Grains Value Chain 
+              </a>
+              <ul class="nav-dropdown-items">
+                <li class="nav-item">
+                  <a class="nav-link" href="grains">
+                    <i class="nav-icon icon-drop"></i> Overview </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_raw_materials">
+                    <i class="nav-icon icon-drop"></i> Raw Materials </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_asset">
+                    <i class="nav-icon icon-drop"></i> Assets </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_final_products">
+                    <i class="nav-icon icon-drop"></i> Final Products </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_unit_cost">
+                    <i class="nav-icon icon-drop"></i> Unit Costs </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_optimisation">
+                    <i class="nav-icon icon-drop"></i> Optimisation </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_cashflow">
+                    <i class="nav-icon icon-drop"></i> Cashflow Engine </a>
+                </li>
+              </ul>
+            </li>        
+      </div>
+      <main class="main"> 
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">Home</li>
+          <li class="breadcrumb-item">
+            <a href="#">{{title}}</a>
+          </li>
+          <li class="breadcrumb-item active">Results</li>
+        </ol>
+        <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card">
+                  <div class="card-header"> Results </div>
+                  <div class="card-body">
+                        <dl class="row">
+                          <dt class="col-sm-4"> Production Quantity of {{product_1}}: </dt>
+                          <dd class="col-sm-8"> {{res_A}} </dd>
+                          <dt class="col-sm-4"> Production Quantity of {{product_2}}: </dt>
+                          <dd class="col-sm-8"> {{res_B}} </dd>
+                          <dt class="col-sm-4"> Total Gross Margin: </dt>
+                          <dd class="col-sm-8"> ${{gmargin}} </dd>
+                          <dt class="col-sm-4"> Operating (Net) Margin: </dt>
+                          <dd class="col-sm-8"> $0.00 </dd>
+                          <dt class="col-sm-4"> Free Cash Flow to the Firm (FCFF):</dt>
+<!--                             <a href="#" data-toggle="tooltip" title="" data-original-title="FCFF = [EBIT * (1-tax rate)] + depreciation – FCINV – WCINV">Free Cash Flow to the Firm (FCFF):</a> </dt> -->
+                          <dd class="col-sm-8"> $0.00 </dd>
+                          <dt class="col-sm-4"> Free Cash Flow to Equity (FCFE): </dt>
+<!--                             <a href="#" data-toggle="tooltip" title="" data-original-title="FCFE = FCFF - [int (1-tax rate)] + net borrowing">Free Cash Flow to Equity (FCFE):</a></dt> -->
+                          <dd class="col-sm-8"> $0.00 </dd> 
+                        </dl>
+                      </div>
+                </div>
+              </div>
+        </div>
+      </main>
+
+    <!-- Scripts for page to run.. -->
+<script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@coreui/coreui/dist/js/coreui.min.js"></script>
+  </body>
+</html>

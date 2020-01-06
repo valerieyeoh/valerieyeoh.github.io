@@ -1,0 +1,306 @@
+{% load staticfiles %} 
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Icons-->
+    <link rel="stylesheet" href="https://unpkg.com/@coreui/icons/css/coreui-icons.min.css">
+    <link href="{% static 'node_modules/@coreui/icons/css/coreui-icons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'node_modules/flag-icon-css/css/flag-icon.min.css' %}" rel="stylesheet">
+    <link href="{% static 'node_modules/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'node_modules/simple-line-icons/css/simple-line-icons.css' %}" rel="stylesheet">
+    <!-- CoreUI CSS -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'vendors/pace-progress/css/pace.min.css' %}" rel="stylesheet">
+  </head>
+  <!-- Side bar -->
+  <body class="app sidebar-show sidebar-fixed">
+    <div class="app-body">
+      <div class="sidebar">
+        <nav class="sidebar-nav">
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link" href="home">
+                <img src="{% static 'img/home.png' %}" width="30" height="20"> Home</a>
+            </li>
+            <li class="nav-item nav-dropdown">
+              <a class="nav-link nav-dropdown-toggle" href="#">
+                <img src="{% static 'img/wheat.png' %}" width="30" height="20"> Grains Value Chain 
+              </a>
+              <ul class="nav-dropdown-items">
+                <li class="nav-item">
+                  <a class="nav-link" href="grains">
+                    <i class="nav-icon icon-drop"></i> Overview </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_raw_materials">
+                    <i class="nav-icon icon-drop"></i> Raw Materials </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_asset">
+                    <i class="nav-icon icon-drop"></i> Assets </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_final_products">
+                    <i class="nav-icon icon-drop"></i> Final Products </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_unit_cost">
+                    <i class="nav-icon icon-drop"></i> Unit Costs </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_optimisation">
+                    <i class="nav-icon icon-drop"></i> Optimisation </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_cashflow">
+                    <i class="nav-icon icon-drop"></i> Cashflow Engine </a>
+                </li>
+              </ul>
+            </li>       
+      </div>
+      <!-- Main Body -->
+      <main class="main">
+        <!-- Breadcrumb -->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">Home</li>
+          <li class="breadcrumb-item">
+            <a href="grains">{{title}}</a>
+          </li>
+          <li class="breadcrumb-item active">Unit Costs</li>
+        </ol>
+
+        <!-- Main Body -->
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-body"><h4> {{title}} </h4>
+                <p> {{desc}} </p><hr>
+                <!-- List view group of value chain process -->
+
+                <p> 
+                <div class="row bd-example2">
+                  <div class="col-4">
+                    <div class="list-group" id="list-example">
+                    {% for key in process %}
+                        <a class="list-group-item list-group-item-action" href="{% cycle '#list-item-1' '#list-item-2' '#list-item-3' '#list-item-4' '#list-item-5' '#list-item-6' %}">{{key}}</a>
+                    {% endfor %}
+                    </div>
+                  </div>
+                  <div class="col-8">
+                    <div id="spy-example2" data-spy="scroll" data-target="#list-example" data-offset="0" style="height: 280px; overflow: auto">
+                      {% for key, val in process.items %}
+                        <h4 id="{% cycle 'list-item-1' 'list-item-2' 'list-item-3' 'list-item-4' 'list-item-5' 'list-item-6' %}"> {{key}} </h4>
+                        {% if val.items %}
+                          {% for stage, value in val.items %}
+                            <p><b> {{stage}}: </b>{{value}}</p>
+                          {% endfor %}
+                        {% else %}
+                          <p> {{val}} </p>
+                        {% endif %}
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <div>
+                  <h5> Product Slate </h5>
+                  <div class="col-md-3">
+                    <button class="btn btn-success" id="calc-button" type="submit" onclick="sum_rows()"> Calculate </button>
+                  </div>
+                  <div class="col-md-9">
+                    <h5> Product sLATE </h5>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <div class="input-group">
+                        <input class="form-control" name="product" type="text" placeholder="Product Name">
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-primary float-right" type="button" onclick="add_product()"> Add Product </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+<!--                   <div id="container" name="container"> </div>
+                  <p> {{test}}</p> -->
+                  <dl class="row">
+                    <dt class="col-sm-2">Scenario 1: </dt>
+                    <dd class="col-sm-10">Raw material prices are low</dd>
+                    <dt class="col-sm-2">Scenario 2: </dt>
+                    <dd class="col-sm-10">Raw material prices are average</dd>
+                    <dt class="col-sm-2">Scenario 3: </dt>
+                    <dd class="col-sm-10">Raw material prices are high</dd>
+                  </dl>
+                </div>
+                <!-- Table for Unit Cost Input -->
+                <div class="mb-5">
+                  <table id="tableid" class="table table-responsive-sm table-hover">
+                    <thead class="thead-light">
+                      <tr>
+                        <th width="100px">Scenario</th>
+                        <th>Raw Material Quantity (units)</th>
+                        <th>Raw Material Price ($/unit)</th>
+                        <th>Transformation Costs ($)</th>
+                        <th>Transportation Costs ($)</th>
+                        <th>Total Unit Cost ($)</th>
+                        <th></th>
+                      </tr>
+                      <tbody>
+                        <tr id="update">
+                          <td><a href="#" data-toggle="tooltip" title="" data-original-title="Market Condition 1">Scenario 1</a></td>
+                          <td id="sum">500</td>
+                          <td id="sum">2.00</td>
+                          <td id="sum">500</td>
+                          <td id="sum_edit1" contenteditable="true" bgcolor="#FF7C7C" oninput="change(this.id)"></td>
+                          <td class="update_sum"> </td>
+                          <td> <button class="btn btn-block btn-primary" id="mc_one" onclick="select(this.id)"> Select </button> </td>
+                        </tr>
+                        <tr id="update2">
+                          <td><a href="#" data-toggle="tooltip" title="" data-original-title="Market Condition 2">Scenario 2</a></td>
+                          <td id="sum">500</td>
+                          <td id="sum">5.00</td>
+                          <td id="sum">500</td>
+                          <td id="sum_edit2" contenteditable="true" bgcolor="#FF7C7C" oninput="change(this.id)"></td>
+                          <td class="update_sum"> </td>
+                          <td> <button class="btn btn-block btn-primary" id="mc_two" onclick="select(this.id)"> Select </button> </td>
+                        </tr>
+                        <tr id="update3">
+                          <td><a href="#" data-toggle="tooltip" title="" data-original-title="Market Condition 3">Scenario 3</a></td>
+                          <td id="sum">500</td>
+                          <td id="sum">10.00</td>
+                          <td id="sum">500</td>
+                          <td id="sum_edit3" contenteditable="true" bgcolor="#FF7C7C" oninput="change(this.id)"></td>
+                          <td class="update_sum"> </td>
+                          <td> <button class="btn btn-block btn-primary" id="mc_three" onclick="select(this.id)"> Select </button> </td>
+                        </tr>
+                      </tbody>
+                    </thead>
+                  </table>
+<!--                   <div class="col-md-3">
+                    <button class="btn btn-success" id="calc-button" type="submit" onclick="sum_rows()"> Calculate </button>
+                  </div> -->
+                </div>
+                </div>
+              </div>
+              
+          </div>
+        </div>
+      </main>
+    </div>
+    <!-- Scripts for page to run.. -->
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/@coreui/coreui/dist/js/coreui.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.src.js"></script>
+    <script language="javascript">
+      count = "{{title}}"
+      console.log(count)
+      console.log(count.length)
+
+      Highcharts.chart('container', {{chart|safe}});
+          // chart: {
+          //     type: 'line'
+          // },
+          // title: {
+          //     text: 'Title'
+          // },
+          // // xAxis: {
+          // //     categories: ['Africa', 'America', 'Asia', 'Europe', 'Oceania']
+          // // },
+          // series: [
+          // {% for entry in test %}
+          // {
+          //     name: '{{entry.label}}',
+          //     data: '{{entry.data}}'
+          // }, 
+          // {% endfor %}]
+      // })
+
+      function changecol(elem){
+        setTimeout(function(){
+          elem.setAttribute('bgcolor','')}, 1000)  
+      }
+
+      //If number input, reverts back to white color and updates the sum column
+      function change(id){
+        cell = document.getElementById(id)
+        if(Number.isInteger(parseInt(cell.innerHTML))){
+          cell.setAttribute("bgcolor","")
+        }
+        row = document.getElementById(cell.parentNode.id)
+        tablecol = row.getElementsByTagName('td')
+        if(tablecol.length > 0){
+          sum = Number(tablecol[1].innerHTML)*Number(tablecol[2].innerHTML)+Number(tablecol[3].innerHTML)+Number(tablecol[4].innerHTML.replace(/<[^>]+>/g, ''))
+          tablecol[5].innerHTML = sum
+          tablecol[5].setAttribute('bgcolor', '#C4C4C4')
+          changecol(tablecol[5])
+        }
+      }
+
+
+      function loadFunction(){
+        var div = document.getElementById('list-example')
+        const a = document.createElement('a')
+        a.className = "list-group-item list-group-item-action"
+        for(var value in process.items){
+          var count = 1
+          const a = document.createElement('a')
+          if (count == 1){
+            a.className = "list-group-item list-group-item-action active"
+          }
+          else{
+            a.className = "list-group-item list-group-item-action"
+          }
+          a.href = "#list-item-" + toString(count)
+          a.innerHTML = value
+          div.appendChild(a);
+        }
+      }
+
+      //Function for calculating the total unit cost of final product
+      function sum_rows(){
+        var table = document.getElementById('tableid').getElementsByTagName('tr');
+        var update = document.getElementById('tableid').getElementsByClassName('update_sum')
+        var sum = 0;
+        for (var i=0; i<table.length; i++){
+          tablecol = table[i].getElementsByTagName('td')
+          if(tablecol.length > 0){
+            sum = Number(tablecol[1].innerHTML)*Number(tablecol[2].innerHTML)+Number(tablecol[3].innerHTML)+Number(tablecol[4].innerHTML.replace(/<[^>]+>/g, ''))
+            update[i-1].innerHTML = sum
+          }
+        }
+      }
+
+    //Function for updating unit cost on optimisation page
+    function select(id){
+      sum_rows()
+      var item = document.getElementById(id)
+      var test = item.closest("tr").getElementsByClassName('update_sum')[0].innerHTML
+      url = "http://localhost:8001/grains_optimisation?value=" + encodeURIComponent(test)
+      document.location.href = url
+    }
+
+    //Function for including table row
+    function add_row() {
+      $("#tableid tbody").append(
+          "<tr>" +
+            "<td>Scenario 1</td>" +
+            "<td>500</td>" +
+            "<td>2.00</td>" +
+            "<td>500.00 </td>" +
+            "<td><div contenteditable='true'>0.00</div></td>" +
+            "<td>0.00</td>" +
+            "<td></td>" +
+          "</tr>"
+      );
+    }
+
+  </script>
+
+  </body>
+</html>

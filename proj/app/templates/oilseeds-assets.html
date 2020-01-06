@@ -1,0 +1,264 @@
+{% load staticfiles %} 
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Icons-->
+    <link rel="stylesheet" href="https://unpkg.com/@coreui/icons@0.4.1/css/free.min.css">
+    <!-- CoreUI CSS -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'vendors/pace-progress/css/pace.min.css' %}" rel="stylesheet">
+  </head>
+  <style>  
+    input[type=number]::-webkit-inner-spin-button {
+        opacity: 1
+    }
+  </style>
+
+  <body class="app sidebar-show">
+    <div class="app-body">
+      <div class="sidebar">
+        <nav class="sidebar-nav">
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link" href="home">
+                <img src="{% static 'img/home.png' %}" width="30" height="20"> Home</a>
+            </li>
+            <li class="nav-item nav-dropdown">
+              <a class="nav-link nav-dropdown-toggle" href="#">
+                <img src="{% static 'img/wheat.png' %}" width="30" height="20"> Grains Value Chain 
+              </a>
+              <ul class="nav-dropdown-items">
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds">
+                    <i class="nav-icon icon-drop"></i> Overview </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds_raw_materials">
+                    <i class="nav-icon icon-drop"></i> Raw Materials </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds_products">
+                    <i class="nav-icon icon-drop"></i> Products </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds_assets">
+                <i class="nav-icon icon-drop"></i> Asset Configuration </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds_optimisation">
+                <i class="nav-icon icon-drop"></i> Optimisation </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds_result">
+                <i class="nav-icon icon-drop"></i> Results </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds_financials">
+                <i class="nav-icon icon-drop"></i> Financial Statement </a>
+                </li>
+              </ul>
+            </li>
+          </ul>      
+      </div>
+      <main class="main"> 
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">Home</li>
+          <li class="breadcrumb-item">
+            <a href="#">{{title}}</a>
+          </li>
+          <li class="breadcrumb-item active"> Asset Configuration </li>
+        </ol>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <form action="" method="POST">
+                {% csrf_token %}
+                <div class="card-body">
+                  <div class="row">
+
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                    </div>
+                    {% for key, sector in sectors.items %}
+                    <div class="col-md-5">
+                      <img id="container" style="max-width: 380px; height: 230px; margin: 0 auto; border: 1px solid #eee;" src="{% static 'soy-bean-gif.gif' %}">
+                        <!-- <img src="{% static 'soy-bean-gif.gif' %}"> -->
+                      <!-- </div> -->
+                      <p><b style="font-size: 1rem">{{sector|upper}}</b><br/>
+                      <small><i> {% cycle 'Drying &#8901; Cleaning &#8901; Dehulling / Deshelling &#8901; Crushing &#8901; Flaking &#8901; Pressing ' 'Pulp Drying &#8901; Extruding &#8901; Solvent Extraction &#8901; Desolventisation &#8901; Drying ' %}</i> </small></p>
+                      <div class="form-group row">
+                        <label class="col-md-6 col-form-label" style="font-size: 0.85rem"> Hourly Labor Cost</label>
+                        <div class="input-group col-md-6">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text" style="font-size: 0.85rem">$</span>
+                          </div>
+                          {% with "HLC_"|add:key as temp %}
+                          <input class="form-control" type="number" id="{{temp}}" name="{{temp}}" value="0" step="any" min="0">
+                          {% endwith %}
+                          <div class="input-group-append">
+                            <span class="input-group-text" style="font-size: 0.8rem">/hr</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-md-6 col-form-label" style="font-size: 0.85rem"> Labor Hours Available </label>
+                        <div class="input-group col-md-6">
+                          {% with "LHA_"|add:key as temp %}
+                          <input class="form-control" type="number" id="{{temp}}" name="{{temp}}" value="0" step="any" min="0">
+                          {% endwith %}
+                          <div class="input-group-append">
+                            <span class="input-group-text" style="font-size: 0.8rem">hrs</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-md-6 col-form-label" style="font-size: 0.85rem"> CAPEX Investment </label>
+                        <div class="input-group col-md-6">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text" style="font-size: 0.8rem">$</span>
+                          </div>
+                          {% with "CAPEX_"|add:key as temp %}
+                          <input class="form-control" type="number" id="{{temp}}" name="{{temp}}" value="0" step="any" min="0" disabled>
+                          {% endwith %}
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+<!--                   <div class="col">
+                    <div class="form-group row">
+                      <label class="col-md-6 col-form-label" style="font-size: 0.85rem"> Machinery Efficiency / Product Slate </label>
+                      <div class="input-group col-md-6">
+                        <input class="form-control" type="number" value="0" step="any" min="0">
+                        <div class="input-group-append">
+                          <span class="input-group-text" style="font-size: 0.8rem;">hrs</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div> -->
+                  <div class="row-11">
+                    <table class="table table-responsive">
+                      <tr>
+                        <th style="width: 220px"> </th>
+                        <th style="width: 800px; padding-left: 24px"> Labor Hours Required </th>
+                        <th style="width: 800px; padding-left: 27px"> Labor Hours Required </th>
+                      </tr>
+                      <tbody>
+                        {% for key, item in products.items %}
+                        <tr>
+                          <td style="padding-right: 0.25rem">  {{item.title}}<br/> <small><i> {{item.desc}} </i></small>             
+                            <!-- <a onclick="test()" style="cursor: pointer"><img src="{% static 'img/edit.png' %}" height="10"></a> -->
+                          </td>
+                          <td> 
+                            <div class="input-group col-md-6">
+                              {% with item.title|add:"_S1" as temp %}
+                              <input class="form-control" type="number" id="{{temp}}" name="{{temp}}" value='0.0' step='any' min='0.0'>
+                              {% endwith %}
+                              <div class="input-group-append">
+                                <span class="input-group-text" style="font-size: 0.8rem">hrs/MT</span>
+                              </div>
+                            </div>
+                          </td>
+                          <td> 
+                            <div class="input-group col-md-6">
+                              {% with item.title|add:"_S2" as temp %}
+                              <input class="form-control" type="number" id="{{temp}}" name="{{temp}}" value='0.0' step='any' min='0.0'>
+                              {% endwith %}
+                              <div class="input-group-append">
+                                <span class="input-group-text" style="font-size: 0.8rem">hrs/MT</span>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr style="display: none">
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                <a href="oilseeds_raw_materials" class="submit btn btn-light" style="float: left" > Previous: Products </a>
+                <button id="submit" class="submit btn btn-primary" style="float: right" type="submit"> Next: Optimisation </button>
+                <br/> <br/>
+<!--                 <div class="row">
+                  Unit Conversion Table
+                  <table class="table table-responsive">
+                    <tr>
+                      <th> </th>
+                      <th> </th>
+                      <th> </th>
+                      <th> </th>
+                    </tr>
+                    <tbody>
+                      <tr>
+                        <td> Rapeseed </td>
+                        <td>  </td>
+                        <td>  </td>
+                      </tr>
+                  </table>
+                </div> -->
+              </div>
+              </form>
+              </div>
+            </div>
+           </div>
+          </form>
+          </div>
+        </div>
+      </div>
+  </main>
+
+    <!-- Scripts for page to run.. -->
+<script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@coreui/coreui/dist/js/coreui.min.js"></script>
+<script>
+
+input = document.getElementsByTagName("input")
+
+window.addEventListener('load',
+  function(){
+    var hlc = JSON.parse('{{hourly_labor_cost|safe}}')
+    var lha = JSON.parse('{{labor_hours_avail|safe}}')
+    var sec_req = JSON.parse('{{sector_req|safe}}')
+    if (hlc.length > 0){
+      input[1].value = hlc[0]
+      input[2].value = lha[0]
+      input[4].value = hlc[1]
+      input[5].value = lha[1]
+      input[7].value = sec_req[0][0]
+      input[8].value = sec_req[1][0]
+      input[9].value = sec_req[0][1]
+      input[10].value = sec_req[1][1]
+      input[11].value = sec_req[0][2]
+      input[12].value = sec_req[1][2]
+    }
+  }, false)
+
+// function ajax_call(){
+  
+//   $.ajax({
+//     url: "/oilseeds_assets",
+//     type:"POST",
+//     dataType:"json",
+//     data: {csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value, 
+
+//   }})
+// }
+
+function test(){
+  alert("hi")
+}
+
+</script>
+  </body>
+</html>

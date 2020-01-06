@@ -1,0 +1,305 @@
+{% load staticfiles %} 
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Icons-->
+    <link rel="stylesheet" href="https://unpkg.com/@coreui/icons@0.4.1/css/free.min.css">
+    <!-- CoreUI CSS -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'vendors/pace-progress/css/pace.min.css' %}" rel="stylesheet">
+  </head>
+    <style>  
+    input[type=number]::-webkit-inner-spin-button {
+        opacity: 1
+    }
+  </style>
+  <body class="app sidebar-show">
+    <div class="app-body">
+      <div class="sidebar">
+        <nav class="sidebar-nav">
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link" href="home">
+                <img src="{% static 'img/home.png' %}" width="30" height="20"> Home</a>
+            </li>
+            <li class="nav-item nav-dropdown">
+              <a class="nav-link nav-dropdown-toggle" href="#">
+                <img src="{% static 'img/wheat.png' %}" width="30" height="20"> Oilseeds Value Chain 
+              </a>
+              <ul class="nav-dropdown-items">
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds">
+                    <i class="nav-icon icon-drop"></i> Overview </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds_raw_materials">
+                    <i class="nav-icon icon-drop"></i> Raw Materials </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds_products">
+                    <i class="nav-icon icon-drop"></i> Products </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds_assets">
+                    <i class="nav-icon icon-drop"></i> Asset Configuration </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds_optimisation">
+                <i class="nav-icon icon-drop"></i> Optimisation </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds_result">
+                <i class="nav-icon icon-drop"></i> Results </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds_financials">
+                <i class="nav-icon icon-drop"></i> Financial Statement </a>
+                </li>
+              </ul>
+            </li> 
+          </ul>
+        </nav>       
+      </div>
+      <main class="main"> 
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">Home</li>
+          <li class="breadcrumb-item">
+            <a href="oilseeds_optimisation">{{title}}</a>
+          </li>
+          <li class="breadcrumb-item active">Financials</li>
+        </ol>
+        <div class="container-fluid">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6" style="text-align: center">
+                  <span><b style="font-size: 1rem;text-align: center"> MONTHLY PRODUCTION INPUTS </b> </span>
+                  {% for key, item in raw_materials.items %}
+                  <div class="row">
+                    <div class="col-md-6" style="text-align: right">
+                      {{item}}
+                    </div>
+                    <div class="col-md-6 input" style="text-align: left">
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+                <div class="col-md-6" style="text-align: center">
+                  <span><b style="font-size: 1rem;"> MONTHLY PRODUCTION OUTPUTS</b> </span>
+                  {% for key, item in products.items %}
+                  <div class="row">
+                    <div class="col-md-6" style="text-align: right">
+                      {{item}}
+                    </div>
+                    <div class="col-md-6 input" style="text-align: left">
+                      XX units
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+              <br/> <br/>
+              <div class="col-md-7" style="border: 1px solid #000; margin: auto" >
+                <div class="row">
+                  <div class="col-md-8" style="text-align: left; font-weight: bold">
+                    Revenue
+                  </div>
+                  <div class="col-md-4" style="font-weight: bold">
+                    $
+                  </div>
+                </div>
+                <div class="row" style="border-bottom: 1px solid #000">
+                  <div class="col-md-8" style="text-align: left">
+                    Cost of Goods Sold
+                  </div>
+                  <div class="col-md-4">
+                    $
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-8" style="text-align: left; text-indent: 30px">
+                    &#8259; Raw Material Purchase Cost
+                  </div>
+                  <div class="col-md-4">
+                    $
+                  </div>
+                </div>
+                <div class="row" style="border-bottom: 1px solid #000">
+                  <div class="col-md-8" style="text-align: left; text-indent: 30px">
+                    &#8259; Transformation Cost 
+                  </div>
+                  <div class="col-md-4">
+                    $
+                  </div>
+                </div>
+                <div class="row" style="border-bottom: 1px solid #000">
+                  <div class="col-md-8" style="text-align: right">
+                    <b> Gross Margin </b>
+                  </div>
+                  <div class="col-md-4" style="font-weight: bold">
+                    $
+                  </div>
+                </div>
+                <div class="row" style="border-bottom: 1px solid #000">
+                  <div class="col-md-8" style="text-align: left">
+                     Selling, General and Administrative Expense (SG&A)
+                  </div>
+                  <div class="col-md-4">
+                    $
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-8" style="text-align: left">
+                    <b> Net Margin </b>
+                  </div>
+                  <div class="col-md-4">
+                    $
+                  </div>
+                </div>
+              </div>
+<!--               <div class="row">
+                <div class="col-md-6" style="text-align: center">
+                  <b>Revenue</b>
+                </div>
+                <div class="col-md-6 input">
+                  <b> $ </b>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6" style="text-align: center">
+                  Cost of Goods Sold
+                </div>
+                <div class="col-md-6 input">
+                  <b> $ </b>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6" style="text-align: right">
+                  Total Gross Margin:
+                </div>
+                <div class="col-md-6 input">
+                  <b> $ </b>
+                </div>
+              </div>
+              <br/><hr><br/>
+              <div class="row">
+                <div class="col-md-2">
+                  Production input of:
+                </div>
+                <div class="col-md-4">
+                  {% for key, item in raw_materials.items %}
+                  <div class="row" style="padding-bottom: 10px">
+                    <div class="col-md-5" style="padding-left: 40px;">
+                      {{item}}
+                    </div>
+                    <div class="col">
+                      <div class="input-group">
+                        <input class="form-control" value="0.0">
+                        <div class="input-group-append">
+                          <span class="input-group-text">MT</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+                <div class="col-md-5">
+                  <div class="row" style="bottom: 0;">
+                    <span> with assumed </span> 
+                    <input class="form-control" id="multiple" value='1.0' style="width: 100px; margin-right: 20px; margin-left: 20px" type="number" min="0.00">
+                    <span> number of deliveries per year </span>
+                  </div>
+                </div>
+              </div> -->
+              <br/>
+              <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+    <!-- Scripts for page to run.. -->
+<script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+<script src="https://code.highcharts.com/highcharts.js"> </script>
+<script src="https://code.highcharts.com/modules/exporting.js"> </script>
+<script src="https://code.highcharts.com/modules/export-data.js"> </script>
+<script src="https://unpkg.com/@coreui/coreui/dist/js/coreui.min.js"></script>
+<script>
+
+cinput = document.getElementsByClassName("input")
+input = document.getElementsByTagName("input")
+res = {{sess.result|safe}}
+opex = ({{sess.revenue|safe}} - {{sess.gross_margin|safe}}).toLocaleString('en')
+mult = document.getElementById("multiple")
+
+cinput[0].innerHTML = res[0].toFixed(2) + " MT"
+cinput[1].innerHTML = res[1].toFixed(2) + " MT"
+cinput[2].innerHTML = res[2].toFixed(2) + " MT"
+cinput[3].innerHTML = (0.4*res[0]).toFixed(2) + " units"
+cinput[4].innerHTML = (0.6*res[0]).toFixed(2) + " units"
+cinput[5].innerHTML = (0.42*res[1]).toFixed(2) + " units"
+cinput[6].innerHTML = (0.35*res[1]).toFixed(2) + " units"
+cinput[7].innerHTML = (0.20*res[2]).toFixed(2) + " units"
+cinput[8].innerHTML = (0.46*res[2]).toFixed(2) + " units"
+cinput[9].innerHTML += {{sess.revenue|safe}}.toLocaleString('en')
+cinput[10].innerHTML += opex
+cinput[11].innerHTML += {{sess.gross_margin|safe}}.toLocaleString('en')
+
+console.log(input[0])
+input[0].value = res[0].toFixed(2)
+input[1].value = res[1].toFixed(2)
+input[2].value = res[2].toFixed(2)
+
+var chart = Highcharts.chart('container', 
+  {chart: {type: 'line'},
+    title: {text: 'Oilseed Value Chain Financials'}, 
+    yAxis: {title: {text: 'Prices (USD/MT)'}},
+    tooltip: {valueDecimals: 2, valuePrefix: '$', valueSuffix: ' USD'},
+    xAxis: {categories: {{xaxis|safe}}},
+    series: [
+      {name: 'Revenue',
+      data: {{rev|safe}},},
+      {name: 'Gross Margin',
+      data: {{gmargin|safe}},},
+      {name: '',
+      data: {{rev|safe}},
+      visible: false,
+      showInLegend: ''},
+      {name: 'Gross Margin',
+      data: {{gmargin|safe}},
+      visible: false,
+      showInLegend: ''},
+      ]
+    });
+
+mult.addEventListener("change", function(){
+  var xdata = chart.series[0]['xData']
+  var ydata_rev = chart.series[2]['yData']
+  var ydata_gmargin = chart.series[3]['yData']
+  multi = mult.value
+  temp1 = []
+  temp2 = []
+
+  for (index=0; index < xdata.length; index++){
+    test1 = [xdata[index], (ydata_rev[index]*multi)]
+    test2 = [xdata[index], (ydata_gmargin[index]*multi)]
+    temp1.push(test1)
+    temp2.push(test2)
+  }
+  chart.series[0].update({
+    data: temp1
+  })
+  chart.series[1].update({
+    data: temp2
+  })
+})
+
+</script>
+  </body>
+</html>

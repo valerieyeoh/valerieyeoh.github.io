@@ -1,0 +1,592 @@
+{% load staticfiles %} 
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Icons-->
+    <link rel="stylesheet" href="https://unpkg.com/@coreui/icons/css/coreui-icons.min.css">
+    <link href="{% static 'node_modules/@coreui/icons/css/coreui-icons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'node_modules/flag-icon-css/css/flag-icon.min.css' %}" rel="stylesheet">
+    <link href="{% static 'node_modules/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'node_modules/simple-line-icons/css/simple-line-icons.css' %}" rel="stylesheet">
+    <!-- CoreUI CSS -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'vendors/pace-progress/css/pace.min.css' %}" rel="stylesheet">
+  </head>
+
+  <!-- Side bar -->
+  <body class="app sidebar-show sidebar-fixed">
+    <div class="app-body">
+      <div class="sidebar sidebar-fixed sidebar-show">
+        <nav class="sidebar-nav">
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link" href="home">
+                <img src="{% static 'img/home.png' %}" width="30" height="20"> Home
+              </a>
+            </li>
+            <li class="c-sidebar-nav-item nav-item nav-dropdown">
+              <a class="nav-link nav-dropdown-toggle" href="#">
+                <img src="{% static 'img/wheat.png' %}" width="30" height="20"> Oilseeds Value Chain 
+              </a>
+              <ul class="nav-dropdown-items">
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds">
+                    <i class="nav-icon icon-drop"></i> Overview </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds_raw_materials">
+                    <i class="nav-icon icon-drop"></i> Raw Materials </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds_products">
+                    <i class="nav-icon icon-drop"></i> Products </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds_assets">
+                    <i class="nav-icon icon-drop"></i> Asset Configuration </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds_optimisation">
+                    <i class="nav-icon icon-drop"></i> Optimisation </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds_result">
+                <i class="nav-icon icon-drop"></i> Results </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds_financials">
+                <i class="nav-icon icon-drop"></i> Financial Statement </a>
+                </li>
+              </ul>
+              <!-- <a class="nav-link nav-dropdown-toggle" href="#">
+                <img src="{% static 'img/wheat.png' %}" width="30" height="20"> Nonsense Value Chain 
+              </a>
+              <ul class="nav-dropdown-items">
+                <li class="nav-item">
+                  <a class="nav-link" href="grains">
+                    <i class="nav-icon icon-drop"></i> Overview </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_raw_materials">
+                    <i class="nav-icon icon-drop"></i> Raw Materials </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_asset">
+                    <i class="nav-icon icon-drop"></i> Assets </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_final_products">
+                    <i class="nav-icon icon-drop"></i> Final Products </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_unit_cost">
+                    <i class="nav-icon icon-drop"></i> Unit Costs </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_optimisation">
+                    <i class="nav-icon icon-drop"></i> Optimisation </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_cashflow">
+                    <i class="nav-icon icon-drop"></i> Cashflow Engine </a>
+                </li>
+              </ul> -->
+            </li>  
+          </ul>
+        </nav>      
+      </div>
+
+      <!-- Main Body -->
+      <main class="main"> 
+        <!-- Breadcrumb -->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">Home</li>
+          <li class="breadcrumb-item">
+            <a href="grains">{{title}}</a>
+          </li>
+          <li class="breadcrumb-item active">Overview</li>
+        </ol>
+
+        <!-- Main Body Text -->
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-body">
+                  <!-- <div id="Product" class="tabcontent"> 
+                    <div class="row">
+                      <div class="col">
+                        <h5> Product Unit Costs </h5>
+                        <p style ="font-size:12px"> This consists of the units costs for the {{title}}. </p>
+                      </div> 
+                    </div>
+                      <div class="form-group row">
+                        <label class="col form-label" for="select">Select Period</label>
+                        <div class="col">
+                          <select class="form-control form-control-sm" id="select" name="select">
+                            <option value="0">Please select</option>
+                            {% for key, item in products.items %}
+                              {% with "select"|add:key as temp %}
+                                <option value="{{temp}}"> {{item}} </option>
+                              {% endwith %}
+                            {% endfor %}
+                          </select>
+                        </div>
+                      </div>
+
+
+                    <div class="row">
+                      <div class="col-sm-2">
+                      </div>
+                      <div class="col">
+                        <p> Raw Material Cost </p>
+                      </div>
+                      <div class="col">
+                        <p> Transportation Cost </p>
+                      </div>
+                      <div class="col-sm-7">
+                        <div class="row">
+                          <div class="col-sm-6">
+                            Labor Hours Required
+                          </div>
+                        </div>
+                        <div class="row">
+                          {% for key, sector in sectors.items %}
+                          <div class="col-sm">
+                            <small> {{sector}} </small>
+                          </div>
+                          {% endfor %}
+                        </div>
+                      </div>
+                    </div>
+                    {% for key, item in products.items %}
+                    <button class="accordian" style="background-color: #eee; color: #444; width: 100%; text-align: left; border: none; padding: 10px"> {{item}}
+                     </button>
+                    <div class="row" style="display: none; margin: auto">
+                      <p></p>
+                      <div class="row" >
+                        <div class="col-sm-2">
+                        </div>
+                        <div class="col">
+                          <p> Raw Material Cost </p>
+                        </div>
+                        <div class="col">
+                          <p> Transportation Cost </p>
+                        </div>
+                        <div class="col-sm-7">
+                          <div class="row">
+                            <div class="col-sm-6">
+                              Labor Hours Required
+                            </div>
+                          </div>
+                          <div class="row">
+                            {% for key, sector in sectors.items %}
+                            <div class="col-sm">
+                              <small> {{sector}} </small>
+                            </div>
+                            {% endfor %}
+                          </div>
+                        </div>
+                      </div>
+                      First row of inputs
+                      <div class="row" >
+                        <div class="col-sm-2">
+                          {% with "select"|add:key as temp %}
+                          <select class="form-control form-control-sm" id="{{temp}}" name="select">
+                          {% endwith %}
+                              <option value="0">Please select</option>
+                              {% for choice in options %}
+                                {% with "Product_"|add:key|add:choice as temp %}
+                                  <option value="{{temp}}"> {{choice}} </option>
+                                {% endwith %}
+                                <a class="btn" href="#">
+                                <i class="fa fa-close"></i>
+                              </a>
+                              {% endfor %}
+                          </select>
+                        </div>
+                        <div class="col-sm">
+                          <div class="form-group">
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                              </div>
+                              {% with "Product_"|add:key|add:"_RMC" as temp %}
+                                <input class="form-control" id="{{temp}}" type="number" name="{{temp}}">
+                              {% endwith %}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm">
+                          <div class="form-group">
+                              <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text">$</span>
+                                </div>
+                                {% with "Product_"|add:key|add:"_TC" as temp %}
+                                  <input class="form-control" id="{{temp}}" type="number" name="{{temp}}">
+                                {% endwith %}
+                              </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-7">
+                          <div class="row">
+                            <div class="col">
+                              <div class="form-group">
+                                  <div class="controls">
+                                    <div class="input-group">
+                                    {% with "Product_"|add:key|add:"_S1" as temp %}
+                                      <input class="form-control" id="{{temp}}" type="number" name="{{temp}}">
+                                    {% endwith %}
+                                      <div class="input-group-append">
+                                        <span class="input-group-text">hrs</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                              </div>
+                            </div>
+                            <div class="col">
+                              <div class="form-group">
+                                <div class="controls">
+                                  <div class="input-group">
+                                    {% with "Product_"|add:key|add:"_S2" as temp %}
+                                      <input class="form-control" id="{{temp}}" type="number" name="{{temp}}">
+                                    {% endwith %}
+                                    <div class="input-group-append">
+                                      <span class="input-group-text">hrs</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col">
+                              <div class="form-group">
+                                <div class="controls">
+                                  <div class="input-group">
+                                    {% with "Product_"|add:key|add:"_S3" as temp %}
+                                      <input class="form-control" id="{{temp}}" type="number" name="{{temp}}">
+                                    {% endwith %}
+                                    <div class="input-group-append">
+                                      <span class="input-group-text">hrs</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col">
+                              <div class="form-group">
+                                <div class="controls">
+                                  <div class="input-group">
+                                    {% with "Product_"|add:key|add:"_S4" as temp %}
+                                      <input class="form-control" id="{{temp}}" type="number" name="{{temp}}">
+                                    {% endwith %}
+                                    <div class="input-group-append">
+                                      <span class="input-group-text">hrs</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      Second row of inputs
+                      <div class="row" >
+                        <div class="col-sm-2" style="text-align: right;">
+                          <b>Total</b>
+                        </div>
+                        <div class="col-sm">
+                          <div class="form-group">
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                              </div>
+                              {% with "Product_"|add:key|add:"_TRMC" as temp %}
+                                <input class="form-control" id="{{temp}}" type="number">
+                              {% endwith %}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm">
+                          <div class="form-group">
+                              <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text">$</span>
+                                </div>
+                                {% with "Product_"|add:key|add:"_TTC" as temp %}
+                                  <input class="form-control" id="{{temp}}" type="number">
+                                {% endwith %}
+                              </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-7">
+                          <div class="row">
+                            <div class="col">
+                              <div class="form-group">
+                                  <div class="controls">
+                                    <div class="input-group">
+                                    {% with "Product_"|add:key|add:"_TS1" as temp %}
+                                      <input class="form-control" id="{{temp}}" type="number">
+                                    {% endwith %}
+                                      <div class="input-group-append">
+                                        <span class="input-group-text">hrs</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                              </div>
+                            </div>
+                            <div class="col">
+                              <div class="form-group">
+                                <div class="controls">
+                                  <div class="input-group">
+                                    {% with "Product_"|add:key|add:"_TS2" as temp %}
+                                      <input class="form-control" id="{{temp}}" type="number">
+                                    {% endwith %}
+                                    <div class="input-group-append">
+                                      <span class="input-group-text">hrs</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col">
+                              <div class="form-group">
+                                <div class="controls">
+                                  <div class="input-group">
+                                    {% with "Product_"|add:key|add:"_TS3" as temp %}
+                                      <input class="form-control" id="{{temp}}" type="number">
+                                    {% endwith %}
+                                    <div class="input-group-append">
+                                      <span class="input-group-text">hrs</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col">
+                              <div class="form-group">
+                                <div class="controls">
+                                  <div class="input-group">
+                                    {% with "Product_"|add:key|add:"_TS4" as temp %}
+                                      <input class="form-control" id="{{temp}}" type="number">
+                                    {% endwith %}
+                                    <div class="input-group-append">
+                                      <span class="input-group-text">hrs</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                    <div class="row" style="overflow-x: scroll; margin-left: 5px; width: 950px; ">
+                    <div class="row">
+                      <div class="col-sm-2">
+                      </div>
+                      <div class="col">
+                        <p> Raw Material Cost </p>
+                      </div>
+                      <div class="col">
+                        <p> Transportation Cost </p>
+                      </div>
+                      <div class="col-sm-7">
+                        <div class="row">
+                          <div class="col-sm-6">
+                            Labor Hours Required
+                          </div>
+                        </div>
+                        <div class="row">
+                          {% for key, sector in sectors.items %}
+                          <div class="col-sm">
+                            <small> {{sector}} </small>
+                          </div>
+                          {% endfor %}
+                        </div>
+                      </div>
+                    </div>
+                    {% for key, item in products.items %}
+                    <button type="button" class="collapsible" style="background-color: #eee; color: #444; width: 100%; text-align: left; border: none; padding: 10px"> {{item}} </button>
+                    <div class="row content">
+                      <div class="col-sm-2">
+                        <select class="form-control form-control-sm" id="select" name="select">
+                            <option value="0">Please select</option>
+                            {% for key, item in products.items %}
+                              {% with "select"|add:key as temp %}
+                                <option value="{{temp}}"> {{item}} </option>
+                              {% endwith %}
+                            {% endfor %}
+                          </select>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">$</span>
+                            </div>
+                            {% with "Product_"|add:key|add:"_USP" as temp %}
+                              <input class="form-control" name="{{temp}}" type="number">
+                            {% endwith %}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="form-group">
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                              </div>
+                              {% with "Product_"|add:key|add:"_UC" as temp %}
+                                <input class="form-control" name="{{temp}}" type="number">
+                              {% endwith %}
+                            </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-7">
+                        <div class="row">
+                          <div class="col">
+                            <div class="form-group">
+                                <div class="controls">
+                                  <div class="input-group">
+                                  {% with "Product_"|add:key|add:"_S1" as temp %}
+                                    <input class="form-control" name="{{temp}}" type="number">
+                                  {% endwith %}
+                                    <div class="input-group-append">
+                                      <span class="input-group-text">hrs</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col">
+                              <div class="form-group">
+                                <div class="controls">
+                                  <div class="input-group">
+                                    {% with "Product_"|add:key|add:"_S2" as temp %}
+                                      <input class="form-control" name="{{temp}}" type="number">
+                                    {% endwith %}
+                                    <div class="input-group-append">
+                                      <span class="input-group-text">hrs</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col">
+                              <div class="form-group">
+                                <div class="controls">
+                                  <div class="input-group">
+                                    {% with "Product_"|add:key|add:"_S3" as temp %}
+                                      <input class="form-control" name="{{temp}}" type="number">
+                                    {% endwith %}
+                                    <div class="input-group-append">
+                                      <span class="input-group-text">hrs</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col">
+                              <div class="form-group">
+                                <div class="controls">
+                                  <div class="input-group">
+                                    {% with "Product_"|add:key|add:"_S4" as temp %}
+                                      <input class="form-control" name="{{temp}}" type="number">
+                                    {% endwith %}
+                                    <div class="input-group-append">
+                                      <span class="input-group-text">hrs</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    {% endfor %}
+
+                  </div>
+                </div>
+              </div> -->
+
+
+
+
+
+
+
+
+                  <h4>{{title}}</h4>
+                  <p> {{desc}} This proof-of-concept intends to optimise the production quantities across the Oilseeds Value Chain. </p>
+                  <div class="mb-5">
+                  <img src="{% static 'img/oilseedsvc.jpg' %}" alt={{title}}> 
+                  </div>
+                  <div class="small text-muted"> For further information and demo, please contact Gavin Mckenzie at <em>gavin.j.mckenzie@accenture.com</em></div> 
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <!-- Scripts for page to run.. -->
+<script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@coreui/coreui/dist/js/coreui.min.js"></script>
+<script language="javascript">
+
+var coll = document.getElementsByClassName("accordian")
+
+for (var i=0; i<coll.length; i++){
+  coll[i].addEventListener("click", function(){
+    this.classList.toggle("active")
+    var content = this.nextElementSibling
+    if (content.style.display == "none") {
+      content.style.display = "flex";
+      this.style.background = "#bababa"
+    } else {
+      content.style.display = "none";
+      this.style.background = '#eee'
+    }
+  })
+}
+
+var select = document.getElementsByTagName("select")
+
+for (var i=0; i<select.length; i++){
+  select[i].addEventListener("change", function(){
+    var temp = "Product_" + this.id.replace("select","") + "_RMC"
+    var item = document.getElementsByName(temp)
+    item[0].value = 123 //to be updated with excel master value
+    var temp2 = "Product_" + this.id.replace("select", "") + "_TRMC"
+    var total = document.getElementById(temp2)
+    total.value = item[0].value
+  })
+}
+
+var input = document.getElementsByTagName("input")
+
+for (var i=0; i<input.length; i++){
+  input[i].addEventListener("change", function(){
+    var temp = document.getElementsByName(this.name)
+    var name = temp[0].name.split('_')
+    name = name[0] + '_' + name[1] + '_T' + name[2]
+    var total = document.getElementById(name)
+    var sum = Number(0)
+    for (var j=0; j<temp.length; j++){
+      sum += Number(temp[j].value)
+    }
+    total.value = sum
+  })
+}
+
+</script>
+  </body>
+</html>

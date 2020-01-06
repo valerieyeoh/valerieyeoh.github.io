@@ -1,0 +1,390 @@
+{% load staticfiles %} 
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Icons-->
+    <link rel="stylesheet" href="https://unpkg.com/@coreui/icons/css/coreui-icons.min.css">
+    <link href="{% static 'node_modules/@coreui/icons/css/coreui-icons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'node_modules/flag-icon-css/css/flag-icon.min.css' %}" rel="stylesheet">
+    <link href="{% static 'node_modules/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'node_modules/simple-line-icons/css/simple-line-icons.css' %}" rel="stylesheet">
+    <!-- CoreUI CSS -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'vendors/pace-progress/css/pace.min.css' %}" rel="stylesheet">
+  </head>
+  <body class="app sidebar-show">
+    <header class="app-header navbar">
+      <button class="navbar-toggler sidebar-toggler d-lg-none mr-auto" type="button" data-toggle="sidebar-show">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" data-toggle="sidebar-lg-show">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <ul class="nav navbar-nav d-md-down-none">
+        <li class="nav-item px-3">
+          <a class="nav-link" href="#">Dashboard</a>
+        </li>
+    </header>
+    <div class="app-body">
+      <div class="sidebar">
+        <nav class="sidebar-nav">
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link" href="home">
+                <img src="{% static 'img/home.png' %}" width="30" height="20"> Home</a>
+            </li>
+            <li class="nav-item nav-dropdown">
+              <a class="nav-link nav-dropdown-toggle" href="#">
+                <img src="{% static 'img/wheat.png' %}" width="30" height="20"> Value Chains </a>
+                <ul class="nav-dropdown-items">
+                  <li class="nav-item">
+                    <a class="nav-link" href="home">
+                      <i class="nav-icon icon-drop"></i> {{title}}</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="home">
+                      <i class="nav-icon icon-drop"></i> Oilseeds Value Chain</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="home">
+                      <i class="nav-icon icon-drop"></i> Malt Value Chain</a>
+                  </li>
+                </ul>
+              </li>        
+      </div>
+      <main class="main"> 
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">Home</li>
+          <li class="breadcrumb-item">
+            <a href="#">{{title}}</a>
+          </li>
+          <li class="breadcrumb-item active">Overview</li>
+        </ol>
+        <div class="container-fluid">
+          <div class="animated fadeIn">
+            <div class="row">
+              <div class="col-md-12">
+                <ul class="nav nav-tabs" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#overview" role="tab" aria-controls="home">
+                      <i class="icon-calculator"></i> Overview</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#unitcost" role="tab" aria-controls="home">
+                      <i class="icon-calculator"></i> {{product_A}} Unit Cost</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#optimization" role="tab" aria-controls="profile">
+                      <i class="icon-basket-loaded"></i> {{title}} Optimization</a>
+                  </li>
+
+                </ul>
+                <div class="tab-content">
+                  <div class="tab-pane active" id="overview" role="tabpanel">
+                    <h2> {{title}} </h2>
+                    <p></p>
+                    <p> {{desc}}</p>
+                    <img src="{% static 'img/grainsvc.jpg' %}" alt={{title}}>
+                  </div>
+                  <div class="tab-pane" id="unitcost" role="tabpanel">
+                    <h3> {{title}} </h3>
+                    <dl class="row">
+                      <dt class="col-sm-3"> Drying & Storage </dt>
+                      <dd class="col-sm-9"> Harvested grains are stored in elevators and silos for processing/shipment. </dd>
+                      <dt class="col-sm-3"> Trading & Chartering </dt>
+                      <dd class="col-sm-9"> International seaborne trade </dd>
+                      <dt class="col-sm-3"> Terminals & Storage </dt>
+                      <dd class="col-sm-9"> Receiving terminals for storage and conditioning. </dd>
+                      <dt class="col-sm-3"> Primary Transformation</dt>
+                        <dd class="col-sm-9">
+                          <dl class="row">
+                            <dt class="col-sm-2">{{stage_1}}</dt>
+                            <dd class="col-sm-10">{{stage1_desc}}</dd>
+                          </dl>
+                          <dl class="row">
+                            <dt class="col-sm-2">{{stage_2}}</dt>
+                            <dd class="col-sm-10">{{stage2_desc}}</dd>
+                          </dl>
+                          <dl class="row">
+                            <dt class="col-sm-2">{{stage_3}}</dt>
+                            <dd class="col-sm-10">{{stage3_desc}}</dd>
+                          </dl>
+                          <dl class="row">
+                            <dt class="col-sm-2">{{stage_4}}</dt>
+                            <dd class="col-sm-10">{{stage4_desc}}</dd>
+                          </dl>
+                        </dd>
+                        <dt class="col-sm-3"> Packaging Storage & Distribution </dt>
+                        <dd class="col-sm-9"> Packaging and distribution </dd>
+                        <dt class="col-sm-3"> Secondary Transformation </dt>
+                        <dd class="col-sm-9"> Milled products are processed/blended </dd>
+                      </dl>
+
+                  </div>
+                  <div class="tab-pane" id="optimization" role="tabpanel">
+                    <h2> {{title}} </h2>
+                    <p></p>
+                    <p> {{desc}} </p>
+                    
+                    <h5> Resource Information </h5>
+                    <p style ="font-size:12px"> This consists of the resource information required in the {{title}}. </p>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-sm-2">
+                        </div>
+                        <div class="col-sm-3">
+                          <p> Sector 1 </p>
+                        </div>
+                        <div class="col-sm-3">
+                          <p> Sector 2 </p>
+                        </div>
+                        <div class="col-sm-3">
+                          <p> Sector 3 </p>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-2">
+                          <b> Hourly Labor Cost </b>
+                        </div>
+                        <div class="col-sm-3">
+                          <div class="form-group">
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                              </div>
+                              <input class="form-control" type="text" placeholder="Enter hourly cost">
+                            </div>
+                          </div>
+                        </div>
+                          <div class="col-sm-3">
+                          <div class="form-group">
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                              </div>
+                              <input class="form-control" type="text" size="10" placeholder="Enter hourly cost">
+                            </div>
+                          </div>
+                        </div>
+                          <div class="col-sm-3">
+                          <div class="form-group">
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                              </div>
+                              <input class="form-control" type="text" size="10" placeholder="Enter hourly cost">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-2">
+                          <b> Labor Hours Available </b>
+                        </div>
+                        <div class="col-sm-3">
+                          <div class="form-group">
+                              <div class="controls">
+                                <div class="input-group">
+                                  <input class="form-control" id="appendedInput" size="10" type="text" placeholder="Enter hours">
+                                  <div class="input-group-append">
+                                    <span class="input-group-text">hours</span>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+                          <div class="col-sm-3">
+                            <div class="form-group">
+                              <div class="controls">
+                                <div class="input-group">
+                                  <input class="form-control" id="appendedInput" size="10" type="text" placeholder="Enter hours">
+                                  <div class="input-group-append">
+                                    <span class="input-group-text">hours</span>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+                          <div class="col-sm-3">
+                            <div class="form-group">  
+                              <div class="controls">
+                                <div class="input-group">
+                                  <input class="form-control" id="appendedInput" size="10" type="text" placeholder="Enter hours">
+                                  <div class="input-group-append">
+                                    <span class="input-group-text">hours</span>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                  <h5> Product Information </h5>
+                  <p style ="font-size:12px"> This consists of the product information for the {{title}}. </p>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-sm-1">
+                      </div>
+                      <div class="col-sm-2">
+                        <p> Unit Selling Price </p>
+                      </div>
+                      <div class="col-sm-2">
+                        <p> Unit Cost </p>
+                      </div>
+                      <div class="col-sm-2">
+                        <p> Sector 1 </p>
+                      </div>
+                      <div class="col-sm-2">
+                        <p> Sector 2 </p>
+                      </div>
+                      <div class="col-sm-2">
+                        <p> Sector 3 </p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-1">
+                        <b> {{product_A}} </b>
+                      </div>
+                      <div class="col-sm-2">
+                        <div class="form-group">
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                              </div>
+                              <input class="form-control" id="username3" type="text" name="username3">
+                            </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-2">
+                        <div class="form-group">
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                              </div>
+                              <input class="form-control" id="username3" type="text" name="username3">
+                            </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-2">
+                          <div class="form-group">
+                              <div class="controls">
+                                <div class="input-group">
+                                  <input class="form-control" id="appendedInput" size="12" type="text">
+                                  <div class="input-group-append">
+                                    <span class="input-group-text">hours</span>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+                          <div class="col-sm-2">
+                            <div class="form-group">
+                              <div class="controls">
+                                <div class="input-group">
+                                  <input class="form-control" id="appendedInput" size="12" type="text">
+                                  <div class="input-group-append">
+                                    <span class="input-group-text">hours</span>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+                          <div class="col-sm-2">
+                            <div class="form-group">
+                              <div class="controls">
+                                <div class="input-group">
+                                  <input class="form-control" id="appendedInput" size="12" type="text">
+                                  <div class="input-group-append">
+                                    <span class="input-group-text">hours</span>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                    <div class="row">
+                      <div class="col-sm-1">
+                        <b> {{product_B}} </b>
+                      </div>
+                      <div class="col-sm-2">
+                        <div class="form-group">
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                              </div>
+                              <input class="form-control" size="10" type="text">
+                            </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-2">
+                        <div class="form-group">
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                              </div>
+                              <input class="form-control" size="10" type="text" >
+                            </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-2">
+                          <div class="form-group">
+                              <div class="controls">
+                                <div class="input-group">
+                                  <input class="form-control" id="appendedInput" size="10" type="text">
+                                  <div class="input-group-append">
+                                    <span class="input-group-text">hours</span>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+                          <div class="col-sm-2">
+                            <div class="form-group">
+                              <div class="controls">
+                                <div class="input-group">
+                                  <input class="form-control" id="appendedInput" size="10" type="text">
+                                  <div class="input-group-append">
+                                    <span class="input-group-text">hours</span>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+                          <div class="col-sm-2">
+                            <div class="form-group">
+                              <div class="controls">
+                                <div class="input-group">
+                                  <input class="form-control" id="appendedInput" size="10" type="text">
+                                  <div class="input-group-append">
+                                    <span class="input-group-text">hours</span>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-2">
+                        <form action="test" method="POST">
+                          <button class="btn btn-success" type="submit">Submit</button>
+                        </form>
+                      </div>
+                    </div>
+
+
+          </div>
+        </div>
+      </main>
+    </div>
+    <!-- Scripts for page to run.. -->
+<script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@coreui/coreui/dist/js/coreui.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,381 @@
+{% load staticfiles %} 
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Icons-->
+    <link rel="stylesheet" href="https://unpkg.com/@coreui/icons@0.4.1/css/free.min.css">
+    <!-- CoreUI CSS -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'vendors/pace-progress/css/pace.min.css' %}" rel="stylesheet">
+  </head>
+  <style>  
+    input[type=number]::-webkit-inner-spin-button {
+        opacity: 1
+    }
+  </style>
+  <body class="app sidebar-show">
+    <div class="app-body">
+      <div class="sidebar">
+        <nav class="sidebar-nav">
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link" href="home">
+                <img src="{% static 'img/home.png' %}" width="30" height="20"> Home</a>
+            </li>
+            <li class="nav-item nav-dropdown">
+              <a class="nav-link nav-dropdown-toggle" href="#">
+                <img src="{% static 'img/wheat.png' %}" width="30" height="20"> Oilseeds Value Chain 
+              </a>
+              <ul class="nav-dropdown-items">
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds">
+                    <i class="nav-icon icon-drop"></i> Overview </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds_raw_materials">
+                    <i class="nav-icon icon-drop"></i> Raw Materials </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds_products">
+                    <i class="nav-icon icon-drop"></i> Products </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds_assets">
+                    <i class="nav-icon icon-drop"></i> Asset Configuration </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds_optimisation">
+                <i class="nav-icon icon-drop"></i> Optimisation </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds_result">
+                <i class="nav-icon icon-drop"></i> Results </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds_financials">
+                <i class="nav-icon icon-drop"></i> Financial Statement </a>
+                </li>
+              </ul>
+            </li> 
+          </ul>
+        </nav>       
+      </div>
+      <main class="main"> 
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">Home</li>
+          <li class="breadcrumb-item">
+            <a href="oilseeds_optimisation">{{title}}</a>
+          </li>
+          <li class="breadcrumb-item active">Results</li>
+        </ol>
+        <div class="container-fluid">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6" style="text-align: center">
+                  <span><b style="font-size: 1rem;text-align: center"> PRODUCTION INPUTS </b> </span>
+                  {% for key, item in raw_materials.items %}
+                  <div class="row">
+                    <div class="col-md-6" style="text-align: right">
+                      {{item}}
+                    </div>
+                    <div class="col-md-6 input" style="text-align: left">
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+                <div class="col-md-6" style="text-align: center">
+                  <span><b style="font-size: 1rem;"> PRODUCTION OUTPUTS</b> </span>
+                  {% for key, item in products.items %}
+                  <div class="row">
+                    <div class="col-md-6" style="text-align: right">
+                      {{item}}
+                    </div>
+                    <div class="col-md-6 input" style="text-align: left">
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+              <br/> <br/>
+              <div class="row">
+                <div class="col-md-8" style="margin: auto; border: 1px solid #c8ced3; box-shadow: 2px 2px #e4e7ea">
+                  <div class="row" style="border-bottom: 1px solid #eee;">
+                    <div class="col-md-8" style="">
+                      <b style="font-size: 1rem"> </b>
+                    </div>
+                    <div class="col-md-4" style="font-size: 1rem; border-bottom: 1px solid #000; border-top: 1px solid #000; text-align: center">
+                      <b style="text-align: center"> 2020 </b>
+                    </div>
+                  </div>
+                  <div class="row" style="border-bottom: 1px solid #eee">
+                    <div class="col-md-8" style="">
+                      <b style="font-size: 1rem"> REVENUE </b>
+                    </div>
+                    <div class="col-md-4 input" style="font-size: 0.9rem; font-weight: bold">
+                      $
+                    </div>
+                  </div>
+                  <div class="row" style="border-bottom: 1px solid #f7f7f7">
+                    <button class="col-md-8" style="border: none; outline: none; background-color: white; text-align: left">
+                      <b style="font-size: 1rem"> + </b> Cost of Goods Sold:
+                    </button>
+                    <div class="col-md-4 input" style="font-size: 0.9rem">
+                      $
+                    </div>
+                  </div>
+                  <div class="row" id="collapse1">
+                    <div class="col">
+                      <div class="row" >
+                        <div class="col-md-1">
+                        </div>
+                        <div class="col-md-7" style="font-size: 0.75rem">
+                           &#8259; Raw Material Purchase Cost
+                        </div>
+                        <div class="col-md-4 input" style="font-size: 0.8rem">
+                          $
+                        </div>
+                      </div>
+                      <div class="row" style="">
+                        <div class="col-md-1">
+                        </div>
+                        <div class="col-md-7" style="font-size: 0.75rem">
+                           &#8259; Transformation Cost
+                        </div>
+                        <div class="col-md-4 input" style="font-size: 0.8rem">
+                          $
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row" style="border-bottom: 1px solid #eee; border-top: 0.9px solid #000; border-bottom: 0.9px solid #000">
+                    <div class="col-md-8" style="text-align: right; font-weight: bold">
+                      Gross Margin:
+                    </div>
+                    <div class="col-md-4 input" style="font-size: 0.9rem; font-weight: bold">
+                      $
+                    </div>
+                  </div>
+                  <div class="row" style="">
+                    <button class="col-md-8" style="border: none; outline: none; background-color: white; text-align: left">
+                      <b style="font-size: 1rem"> + </b>  Selling, General and Administrative Expense (SG&A)
+                    </button>
+                    <div class="col-md-4 input" style="font-size: 0.9rem">
+                      <b style="font-size: 0.9rem"> $ </b>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <div class="row" >
+                        <div class="col-md-1">
+                        </div>
+                        <div class="col-md-7" style="font-size: 0.75rem">
+                           &#8259; Accounting Expenses
+                        </div>
+                        <div class="col-md-4">
+                          <div class="row">
+                          $
+                          <div class="input-group col-8">
+<!--                             <div class="input-group-prepend">
+                              <span class="input-group-text" style="font-size: 0.85rem">$</span>
+                            </div> -->
+                            <input class="form-control" style="font-size: 0.8rem;" type="number" value="0.00" min="0.00">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                      <div class="row" style="">
+                        <div class="col-md-1">
+                        </div>
+                        <div class="col-md-7" style="font-size: 0.75rem">
+                           &#8259; Legal Expenses
+                        </div>
+                        <div class="col-md-4 input" style="font-size: 0.8rem">
+                          $
+                        </div>
+                      </div>
+                                            <div class="row" style="">
+                        <div class="col-md-1">
+                        </div>
+                        <div class="col-md-7" style="font-size: 0.75rem">
+                           &#8259; Marketing and Sales Expenses
+                        </div>
+                        <div class="col-md-4 input" style="font-size: 0.8rem">
+                          $
+                        </div>
+                      </div>
+                      <div class="row" style="">
+                        <div class="col-md-1">
+                        </div>
+                        <div class="col-md-7" style="font-size: 0.75rem">
+                           &#8259; Overhead Expenses
+                        </div>
+                        <div class="col-md-4 input" style="font-size: 0.8rem">
+                          $
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row" style="border-top: 0.9px solid #000">
+                    <div class="col-md-8" style="text-align: right; font-weight: bold">
+                      Net Margin:
+                    </div>
+                    <div class="col-md-4 input" style="font-size: 0.9rem; font-weight: bold">
+                      $
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <br/><hr><br/>
+              <div class="row">
+<!--                 <div class="col-md-2">
+                  Production input of:
+                </div>
+                <div class="col-md-4">
+                  {% for key, item in raw_materials.items %}
+                  <div class="row" style="padding-bottom: 10px">
+                    <div class="col-md-5" style="padding-left: 40px;">
+                      {{item}}
+                    </div>
+                    <div class="col">
+                      <div class="input-group">
+                        <input class="form-control" value="0.0" style="background-color: #fafafa" disabled>
+                        <div class="input-group-append">
+                          <span class="input-group-text">MT</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div> -->
+              </div>
+              <br/>
+              <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto; "></div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+    <!-- Scripts for page to run.. -->
+<script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+<script src="https://code.highcharts.com/highcharts.js"> </script>
+<script src="https://code.highcharts.com/modules/exporting.js"> </script>
+<script src="https://code.highcharts.com/modules/export-data.js"> </script>
+<script src="https://unpkg.com/@coreui/coreui/dist/js/coreui.min.js"></script>
+<script>
+
+cinput = document.getElementsByClassName("input")
+input = document.getElementsByTagName("input")
+res = {{sess.result|safe}}
+opex = ({{sess.revenue|safe}} - {{sess.gross_margin|safe}}).toLocaleString('en')
+uc = {{sess.raw_material|safe}}
+// mult = document.getElementById("multiple")
+console.log(cinput)
+
+cinput[0].innerHTML = res[0].toFixed(2) + " MT"
+cinput[1].innerHTML = res[1].toFixed(2) + " MT"
+cinput[2].innerHTML = res[2].toFixed(2) + " MT"
+cinput[3].innerHTML = (0.4*res[0]).toFixed(2) + " MT"
+cinput[4].innerHTML = (0.6*res[0]).toFixed(2) + " MT"
+cinput[5].innerHTML = (0.42*res[1]).toFixed(2) + " MT"
+cinput[6].innerHTML = (0.35*res[1]).toFixed(2) + " MT"
+cinput[7].innerHTML = (0.20*res[2]).toFixed(2) + " MT"
+cinput[8].innerHTML = (0.46*res[2]).toFixed(2) + " MT"
+cinput[9].innerHTML += ({{sess.revenue|safe}}).toLocaleString('en')
+cinput[10].innerHTML += (({{rm_cost}} + {{trans_cost}}).toLocaleString('en'))//(Number({{rm_cost|safe}}) + Number({{trans_cost|safe}})//.toLocaleString('en')
+cinput[11].innerHTML += (Number({{rm_cost|safe}}).toFixed(2)).toLocaleString('en')
+cinput[12].innerHTML += (Number({{trans_cost}}).toFixed(2)).toLocaleString('en')
+cinput[13].innerHTML += Number({{sess.revenue}} - {{rm_cost}} - {{trans_cost}}).toLocaleString('en')
+cinput[14].innerHTML += "SG&A"
+cinput[15].innerHTML += "hi"
+
+
+var chart = Highcharts.chart('container', 
+  {chart: {type: 'line'},
+    title: {text: 'Oilseed Value Chain Financials'}, 
+    yAxis: {title: {text: 'Prices (USD/MT)'}},
+    tooltip: {valueDecimals: 2, valuePrefix: '$', valueSuffix: ' USD'},
+    xAxis: {categories: {{xaxis|safe}}},
+    series: [
+      {name: 'Revenue',
+      data: {{rev|safe}},},
+      {name: 'Gross Margin',
+      data: {{gmargin|safe}},},
+      {name: '',
+      data: {{rev|safe}},
+      visible: false,
+      showInLegend: ''},
+      {name: 'Gross Margin',
+      data: {{gmargin|safe}},
+      visible: false,
+      showInLegend: ''},
+      ]
+    });
+
+// mult.addEventListener("change", function(){
+//   var xdata = chart.series[0]['xData']
+//   var ydata_rev = chart.series[2]['yData']
+//   var ydata_gmargin = chart.series[3]['yData']
+//   multi = mult.value
+//   temp1 = []
+//   temp2 = []
+
+//   for (index=0; index < xdata.length; index++){
+//     test1 = [xdata[index], (ydata_rev[index]*multi)]
+//     test2 = [xdata[index], (ydata_gmargin[index]*multi)]
+//     temp1.push(test1)
+//     temp2.push(test2)
+//   }
+//   chart.series[0].update({
+//     data: temp1
+//   })
+//   chart.series[1].update({
+//     data: temp2
+//   })
+// })
+
+but = document.getElementsByTagName("button")
+console.log(but)
+
+for (var i=0; i < but.length; i++){
+  but[i].addEventListener("click", function(){
+    this.classList.toggle("active")
+    title = this.innerHTML.split("</b>")
+
+    x = this.parentNode.nextElementSibling
+
+    if(x.style.display == "none"){
+      x.style.display = "block"
+      this.innerHTML = "<b style='font-size: 1rem'> + </b> " + title[1]
+    } else {
+      x.style.display = "none"
+      this.innerHTML = " <b style='font-size: 1rem'> - </b> " + title[1]
+    }
+  })
+}
+
+// function collapse(this, id){
+//   this.classList.toggle("active")
+
+//   // x = document.getElementsByName(id)
+//   // this.classList.toggle("active")
+
+//   // for(i=0; i<x.length; i++){
+//   //   if(x[i].style.display === "block"){
+//   //     x[i].style.display = "none"
+//   //   } else {
+//   //     x[i].style.display = "block"
+//   //   }
+//   // }
+// }
+
+
+</script>
+  </body>
+</html>

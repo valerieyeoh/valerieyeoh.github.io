@@ -1,0 +1,393 @@
+{% load staticfiles %} 
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Icons-->
+    <link rel="stylesheet" href="https://unpkg.com/@coreui/icons@0.4.1/css/free.min.css">
+    <!-- CoreUI CSS -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'vendors/pace-progress/css/pace.min.css' %}" rel="stylesheet">
+  </head>
+
+  <!-- Side bar -->
+  <body class="app sidebar-show sidebar-fixed">
+    <div class="app-body">
+      <div class="sidebar">
+        <nav class="sidebar-nav">
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link" href="home">
+                <img src="{% static 'img/home.png' %}" width="30" height="20"> Home</a>
+            </li>
+            <li class="nav-item nav-dropdown">
+              <a class="nav-link nav-dropdown-toggle" href="#">
+                <img src="{% static 'img/wheat.png' %}" width="30" height="20"> Oilseeds Value Chain 
+              </a>
+              <ul class="nav-dropdown-items">
+                <li class="nav-item">
+                  <a class="nav-link" href="grains">
+                    <i class="nav-icon icon-drop"></i> Overview </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_raw_materials">
+                    <i class="nav-icon icon-drop"></i> Raw Materials </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_asset">
+                    <i class="nav-icon icon-drop"></i> Assets </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_final_products">
+                    <i class="nav-icon icon-drop"></i> Final Products </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_unit_cost">
+                    <i class="nav-icon icon-drop"></i> Unit Costs </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_optimisation">
+                    <i class="nav-icon icon-drop"></i> Optimisation </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_cashflow">
+                    <i class="nav-icon icon-drop"></i> Cashflow Engine </a>
+                </li>
+              </ul>
+            </li>  
+            </ul>
+          </nav>      
+      </div>
+
+      <!-- Main Body -->
+      <main class="main"> 
+        <!-- Breadcrumb -->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">Home</li>
+          <li class="breadcrumb-item">
+            <a href="grains">{{title}}</a>
+          </li>
+          <li class="breadcrumb-item active">Optimisation</li>
+        </ol>
+        <!-- Main body content -->
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <!-- Title and description -->
+                <div class="card-body"><h4> {{title}} </h4>
+                  <p> {{desc}} </p>
+                  <hr>
+                  <!-- Resource Information section -->
+                  <form action="grains_result" method="POST">
+                    {% csrf_token %}
+                  <h5> Resource Information </h5>
+                  <p style ="font-size:12px"> This consists of the resource information required in the {{title}}. </p>
+                  <div class="card-body mb-4">
+                    <div class="row">
+                      <div class="col-sm-2">
+                      </div>
+                      <div class="col-sm-3">
+                        <p> {{sec1}} </p>
+                      </div>
+                      <div class="col-sm-3">
+                        <p> {{sec2}} </p>
+                      </div>
+                      <div class="col-sm-3">
+                        <p> {{sec3}} </p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-2">
+                        <b> Hourly Labor Cost </b>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="form-group">
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">$</span>
+                            </div>
+                            <input class="form-control" name="Hourly_Labor_Cost_1" type="number" placeholder="Enter hourly cost">
+                          </div>
+                        </div>
+                      </div>
+                        <div class="col-sm-3">
+                        <div class="form-group">
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">$</span>
+                            </div>
+                            <input class="form-control" type="number" name="Hourly_Labor_Cost_2" size="10" placeholder="Enter hourly cost">
+                          </div>
+                        </div>
+                      </div>
+                        <div class="col-sm-3">
+                        <div class="form-group">
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">$</span>
+                            </div>
+                            <input class="form-control" type="number" name="Hourly_Labor_Cost_3" size="10" placeholder="Enter hourly cost">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-2">
+                        <b> Labor Hours Available </b>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="form-group">
+                            <div class="controls">
+                              <div class="input-group">
+                                <input class="form-control" name="Labor_Hours_Avail_1" size="10" type="number" placeholder="Enter hours">
+                                <div class="input-group-append">
+                                  <span class="input-group-text">hours</span>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                      </div>
+                        <div class="col-sm-3">
+                          <div class="form-group">
+                            <div class="controls">
+                              <div class="input-group">
+                                <input class="form-control" name="Labor_Hours_Avail_2" size="10" type="number" placeholder="Enter hours">
+                                <div class="input-group-append">
+                                  <span class="input-group-text">hours</span>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                      </div>
+                        <div class="col-sm-3">
+                          <div class="form-group">  
+                            <div class="controls">
+                              <div class="input-group">
+                                <input class="form-control" name="Labor_Hours_Avail_3" size="10" type="number" placeholder="Enter hours">
+                                <div class="input-group-append">
+                                  <span class="input-group-text">hours</span>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Product Information -->
+                  <div class="row">
+                    <div class="col-md-9">
+                      <h5> Product Information </h5>
+                      <p style ="font-size:12px"> This consists of the product information for the {{title}}. </p>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <div class="input-group">
+                          <input class="form-control" name="product" type="text" placeholder="Product Name">
+                          <div class="input-group-append">
+                            <button class="btn btn-outline-primary float-right" type="button" onclick="add_product()"> Add Product </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-sm-1">
+                      </div>
+                      <div class="col-sm-2">
+                        <p> Unit Selling Price </p>
+                      </div>
+                      <div class="col-sm-2">
+                        <p> Unit Cost </p>
+                      </div>
+                      <div class="col">
+                        <div class="row">
+                          <div class="col-sm-6">
+                            Labor Hours Required
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm">
+                            <small> {{sec1}} </small>
+                          </div>
+                          <div class="col-sm">
+                            <small> {{sec2}} </small>
+                          </div>
+                          <div class="col-sm-5">
+                            <small> {{sec3}} </small>
+                          </div>
+                        </div>
+                    </div>
+                    {% for key, item in products.items %}
+                    <div class="row">
+                      <div class="col-sm-1">
+                        <b> {{ item }} </b>
+                      </div>
+                        <div class="col-sm-2">
+                          <div class="form-group">
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                              </div>
+                              {% with "Product_"|add:key|add:"_USP" as temp %}
+                                <input class="form-control" name="{{temp}}" type="number">
+                              {% endwith %}
+                            </div>
+                          </div>
+                        </div>
+                      <div class="col-sm-2">
+                        <div class="form-group">
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                              </div>
+                              {% with "Product_"|add:key|add:"_UC" as temp %}
+                                <input class="form-control" name="{{temp}}" type="number">
+                              {% endwith %}
+                            </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-2">
+                          <div class="form-group">
+                              <div class="controls">
+                                <div class="input-group">
+                                {% with "Product_"|add:key|add:"_S1" as temp %}
+                                  <input class="form-control" name="{{temp}}" type="number">
+                                {% endwith %}
+                                  <div class="input-group-append">
+                                    <span class="input-group-text">hours</span>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+                          <div class="col-sm-2">
+                            <div class="form-group">
+                              <div class="controls">
+                                <div class="input-group">
+                                  {% with "Product_"|add:key|add:"_S2" as temp %}
+                                    <input class="form-control" name="{{temp}}" type="number">
+                                  {% endwith %}
+                                  <div class="input-group-append">
+                                    <span class="input-group-text">hours</span>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+                          <div class="col-sm-2">
+                            <div class="form-group">
+                              <div class="controls">
+                                <div class="input-group">
+                                  {% with "Product_"|add:key|add:"_S3" as temp %}
+                                    <input class="form-control" name="{{temp}}" type="number">
+                                  {% endwith %}
+                                  <div class="input-group-append">
+                                    <span class="input-group-text">hours</span>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                    {% endfor %}
+                    </div>
+                  </div>
+                    <div class="row">
+                      <div class="col-sm-1">
+                      </div>
+                      <div class="col">
+                        <div class="row">
+                          <div class="col-sm-6">
+                            Marketing Forecast
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-2">
+                            <small> Minimum </small>
+                          </div>
+                          <div class="col-sm-2">
+                            <small> Maximum </small>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {% for key, item in products.items %}
+                    <div class="row">
+                      <div class="col">
+                        <b> {{item}} </b>
+                      </div>
+                      <div class="col-sm-2">
+                        <div class="form-group">
+                          <div class="controls">
+                            <div class="input-group">
+                              {% with "Product_"|add:key|add:"_Min" as temp %}
+                                <input class="form-control" name="{{temp}}" type="number" value="0">
+                              {% endwith %}
+                              <div class="input-group-append">
+                                <span class="input-group-text">units</span>
+                              </div>
+                              </div>
+                            </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-2">
+                        <div class="form-group">
+                          <div class="controls">
+                            <div class="input-group">
+                              {% with "Product_"|add:key|add:"_Max" as temp %}
+                                <input class="form-control" name="{{temp}}" type="number" value="999">
+                              {% endwith %}
+                              <div class="input-group-append">
+                                <span class="input-group-text">units</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-7">
+                      </div>
+                    </div>
+                    {% endfor %}
+                  <button class="btn btn-success" type="submit">Submit</button>
+                </div>
+              <p></p>
+              </form>
+            </div>
+          </div>
+        </div>
+      </main>
+
+  <!-- Scripts for page to run.. -->
+  <script language="javascript">
+
+    //Function to take updated unit cost value
+    window.onload = function () {
+      var url = document.location.href,
+          params = url.split('?')[1].split('&'),
+          data = {}, tmp;
+      for (var i = 0, l = params.length; i < l; i++) {
+           tmp = params[i].split('=');
+           data[tmp[0]] = tmp[1];
+      }
+      console.log(data)
+      document.getElementsByName('Product_1_USP')[0].value = data.value
+    }
+
+    function add_product() {
+      // $("# tbody").append(
+
+      // );
+    }
+
+  </script>
+  <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@coreui/coreui/dist/js/coreui.min.js"></script>
+  </body>
+</html>

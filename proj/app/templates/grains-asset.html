@@ -1,0 +1,138 @@
+{% load staticfiles %} 
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Icons-->
+    <link rel="stylesheet" href="https://unpkg.com/@coreui/icons/css/coreui-icons.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/@coreui/icons@0.4.1/css/free.min.css">
+    <!-- CoreUI CSS -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'vendors/pace-progress/css/pace.min.css' %}" rel="stylesheet">
+  </head>
+
+  <!-- Side bar -->
+  <body class="app sidebar-show sidebar-fixed">
+    <div class="app-body">
+      <div class="sidebar sidebar-fixed sidebar-show">
+        <nav class="sidebar-nav">
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link" href="home">
+                <img src="{% static 'img/home.png' %}" width="30" height="20"> Home
+              </a>
+            </li>
+            <li class="nav-item nav-dropdown">
+              <a class="nav-link nav-dropdown-toggle" href="#">
+                <img src="{% static 'img/wheat.png' %}" width="30" height="20"> Grains Value Chain 
+              </a>
+              <ul class="nav-dropdown-items">
+                <li class="nav-item">
+                  <a class="nav-link" href="grains">
+                    <i class="nav-icon icon-drop"></i> Overview </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_raw_materials">
+                    <i class="nav-icon icon-drop"></i> Raw Materials </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_asset">
+                    <i class="nav-icon icon-drop"></i> Assets </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_final_products">
+                    <i class="nav-icon icon-drop"></i> Final Products </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_unit_cost">
+                    <i class="nav-icon icon-drop"></i> Unit Costs </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_optimisation">
+                    <i class="nav-icon icon-drop"></i> Optimisation </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_cashflow">
+                    <i class="nav-icon icon-drop"></i> Cashflow Engine </a>
+                </li>
+              </ul>
+            </li>  
+          </ul>
+        </nav>      
+      </div>
+
+      <!-- Main body -->
+      <main class="main">
+        <!-- Breadcrumb -->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">Home</li>
+          <li class="breadcrumb-item">
+            <a href="grains">{{title}}</a>
+          </li>
+          <li class="breadcrumb-item active">Assets</li>
+        </ol>
+        <div class="container-fluid">
+          <div class="card">
+            <div class="card-body">
+              <h4>{{title}}</h4>
+              <p> {{desc}}</p>
+              <hr>
+              <form action="grains_result" method="POST">
+              {% csrf_token %}
+              <h5> Asset Investment </h5>
+              <div class="mb-5">
+                  <table id="tableid" class="table table-responsive-sm table-hover">
+                    <thead class="thead-light">
+                      <tr>
+                        <th width="150px">Asset</th>
+                        <th width="350px">Description</th>
+                        <th>Assumptions</th>
+                        <th>CAPEX ($)</th>
+                        <th>Depreciation (%)</th>
+                        <th>Total Cost</th>
+                      </tr>
+                      <tbody>
+                        {% for key, asset in asset.items %}
+                        {% with "id"|add:key as id %}
+                        <tr id="{{id}}">
+                          {% for items in asset %}
+                            {% cycle '<td><b>' '<td>' '<td>' '<td contenteditable="true" style="text-align:right" oninput="update(this)">' '<td contenteditable="true" style="text-align:right" oninput="update(this)">' '<td style="text-align:right">' %}  {{items}}</td>
+                          {% endfor %}
+                        </tr>
+                        {% endwith %}
+                        {% endfor %}
+                      </tbody>
+                    </thead>
+                  </table>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Scripts for page to run.. -->
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/@coreui/coreui/dist/js/coreui.min.js"></script>
+    <script language="javascript">
+
+      function changecol(elem){
+        setTimeout(function(){
+          elem.setAttribute('bgcolor','')}, 1000)      
+      }
+
+      function update(elem){
+        tablecol = document.getElementById(elem.parentNode.id)
+        temp = tablecol.getElementsByTagName('td')
+        sum = parseInt(temp[3].innerHTML) * parseInt(temp[4].innerHTML)
+        temp[5].innerHTML = sum
+        temp[5].setAttribute('bgcolor', '#C4C4C4')
+        changecol(temp[5])
+      }
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,266 @@
+{% load staticfiles %} 
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Icons-->
+    <link rel="stylesheet" href="https://unpkg.com/@coreui/icons/css/coreui-icons.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/@coreui/icons@0.4.1/css/free.min.css">
+    <!-- CoreUI CSS -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'vendors/pace-progress/css/pace.min.css' %}" rel="stylesheet">
+  </head>
+
+  <!-- Side bar -->
+  <body class="app sidebar-show sidebar-fixed">
+    <div class="app-body">
+      <div class="sidebar sidebar-fixed sidebar-show">
+        <nav class="sidebar-nav">
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link" href="home">
+                <img src="{% static 'img/home.png' %}" width="30" height="20"> Home
+              </a>
+            </li>
+            <li class="nav-item nav-dropdown">
+              <a class="nav-link nav-dropdown-toggle" href="#">
+                <img src="{% static 'img/wheat.png' %}" width="30" height="20"> Grains Value Chain 
+              </a>
+              <ul class="nav-dropdown-items">
+                <li class="nav-item">
+                  <a class="nav-link" href="grains">
+                    <i class="nav-icon icon-drop"></i> Overview </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_raw_materials">
+                    <i class="nav-icon icon-drop"></i> Raw Materials </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_asset">
+                    <i class="nav-icon icon-drop"></i> Assets </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_final_products">
+                    <i class="nav-icon icon-drop"></i> Final Products </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_unit_cost">
+                    <i class="nav-icon icon-drop"></i> Unit Costs </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_optimisation">
+                    <i class="nav-icon icon-drop"></i> Optimisation </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_cashflow">
+                    <i class="nav-icon icon-drop"></i> Cashflow Engine </a>
+                </li>
+              </ul>
+            </li>  
+          </ul>
+        </nav>      
+      </div>
+
+      <!-- Main body -->
+      <main class="main">
+        <!-- Breadcrumb -->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">Home</li>
+          <li class="breadcrumb-item">
+            <a href="grains">{{title}}</a>
+          </li>
+          <li class="breadcrumb-item active">Cashflow</li>
+        </ol>
+        <div class="container-fluid">
+          <div class="card">
+            <div class="card-body">
+              <h4>{{title}}</h4>
+              <p> {{desc}}</p>
+              <hr>
+              <form action="grains_result" method="POST">
+              {% csrf_token %}
+              <h5> Gross and Operating Margin </h5>
+              <p>
+              <i>Gross Margin = Net Sales - Cost of Goods Sold</i> <br>
+              <i>Operating Margin = Operating Earnings / Revenue</i></p>
+              <div class="row">
+                <div class="col-sm-2">
+                  <b> Operating Income: </b>
+                </div>
+                <div class="col-sm-3 mb-3">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                      </div>
+                      <input class="form-control" name="" type="number" placeholder="Enter operating income">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <h5> Free Cash Flow to the Firm (FCFF) </h5>
+              <i>FCFF = [EBIT * (1-tax rate)] + depreciation – FCINV – WCINV</i><br>
+              <div class="text-muted">
+                <small><p> EBIT = Earnings before interest and tax, FCINV = Fixed Capital Investment, WCINV = Working Capital Investment<br>
+                </p></small>
+              </div>
+              <div class="row">
+                <div class="col-sm-2">
+                  <b> EBIT: </b>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                      </div>
+                      <input class="form-control" name="" type="number" placeholder="Enter EBIT">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-2">
+                  <b> Fixed Capital Investment: </b>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                      </div>
+                      <input class="form-control" name="" type="number" placeholder="Enter FCINV">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-2">
+                  <b> Tax Rate: </b>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <input class="form-control" name="" type="number" placeholder="Enter tax rate">
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-2">
+                  <b> Working Capital Investment: </b>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                      </div>
+                      <input class="form-control" name="" type="number" placeholder="Enter WCINV">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-2">
+                  <b> Depreciation: </b>
+                </div>
+                <div class="col-sm-3 mb-3">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <input class="form-control" name="" type="number" placeholder="Enter depreciation">
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <h5> Free Cash Flow to Equity (FCFE) </h5>
+              <i> FCFE = FCFF - [int (1-tax rate)] + net borrowing </i>
+              <div class="text-muted">
+                <small><p> FCFF = Free Cash Flow to the Firm, Net Borrowing = (Ending Short Term Debt + Long Term Debt) – (Beginning Short Term Debt + Long Term Debt) <br>
+                </p></small>
+              </div>
+              <div class="row">
+                <div class="col-sm-2">
+                  <b> Tax Rate: </b>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <input class="form-control" name="" type="number" placeholder="Enter tax rate">
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-2">
+                  <b> Beginning Debt: </b>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label for="beginning-ST"> Short Term
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                      </div>
+                      <input class="form-control" name="beginning-ST" type="number" placeholder="Enter short term debt">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label for="beginning-LT"> Long Term
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                      </div>
+                      <input class="form-control" name="beginning-LT" type="number" placeholder="Enter long term debt">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-2">
+                  <b> Ending Debt: </b>
+                </div>
+                <div class="col-sm-3 mb-3">
+                  <div class="form-group">
+                    <label for="end-ST"> Short Term
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                      </div>
+                      <input class="form-control" name="end-ST" type="number" placeholder="Enter short term debt">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3 mb-3">
+                  <div class="form-group">
+                    <label for="end-LT"> Long Term
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                      </div>
+                      <input class="form-control" name="end-LT" type="number" placeholder="Enter long term debt">
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Scripts for page to run.. -->
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/@coreui/coreui/dist/js/coreui.min.js"></script>
+  </body>
+</html>

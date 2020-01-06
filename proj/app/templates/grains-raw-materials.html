@@ -1,0 +1,221 @@
+{% load staticfiles %} 
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Icons-->
+    <link rel="stylesheet" href="https://unpkg.com/@coreui/icons/css/coreui-icons.min.css">
+    <link href="{% static 'node_modules/@coreui/icons/css/coreui-icons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'node_modules/flag-icon-css/css/flag-icon.min.css' %}" rel="stylesheet">
+    <link href="{% static 'node_modules/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'node_modules/simple-line-icons/css/simple-line-icons.css' %}" rel="stylesheet">
+    <!-- CoreUI CSS -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'vendors/pace-progress/css/pace.min.css' %}" rel="stylesheet">
+  </head>
+
+  <!-- Side bar -->
+    <body class="app sidebar-show sidebar-fixed">
+    <div class="app-body">
+      <div class="sidebar sidebar-fixed sidebar-show">
+        <nav class="sidebar-nav">
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link" href="home">
+                <img src="{% static 'img/home.png' %}" width="30" height="20"> Home
+              </a>
+            </li>
+            <li class="nav-item nav-dropdown">
+              <a class="nav-link nav-dropdown-toggle" href="#">
+                <img src="{% static 'img/wheat.png' %}" width="30" height="20"> Oilseeds Value Chain 
+              </a>
+              <ul class="nav-dropdown-items">
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds">
+                    <i class="nav-icon icon-drop"></i> Overview </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds_raw_materials">
+                    <i class="nav-icon icon-drop"></i> Raw Materials </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="oilseeds_products">
+                    <i class="nav-icon icon-drop"></i> Products </a>
+                </li>
+              </ul>
+              <a class="nav-link nav-dropdown-toggle" href="#">
+                <img src="{% static 'img/wheat.png' %}" width="30" height="20"> Nonsense Value Chain 
+              </a>
+              <ul class="nav-dropdown-items">
+                <li class="nav-item">
+                  <a class="nav-link" href="grains">
+                    <i class="nav-icon icon-drop"></i> Overview </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_raw_materials">
+                    <i class="nav-icon icon-drop"></i> Raw Materials </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_asset">
+                    <i class="nav-icon icon-drop"></i> Assets </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_final_products">
+                    <i class="nav-icon icon-drop"></i> Final Products </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_unit_cost">
+                    <i class="nav-icon icon-drop"></i> Unit Costs </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_optimisation">
+                    <i class="nav-icon icon-drop"></i> Optimisation </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="grains_cashflow">
+                    <i class="nav-icon icon-drop"></i> Cashflow Engine </a>
+                </li>
+              </ul>
+            </li>  
+          </ul>
+        </nav>      
+      </div>
+
+      <!-- Main Body -->
+      <main class="main"> 
+        <!-- Breadcrumb -->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">Home</li>
+          <li class="breadcrumb-item">
+            <a href="grains">{{title}}</a>
+          </li>
+          <li class="breadcrumb-item active">Raw Materials</li>
+        </ol>
+
+        <!-- Main Body Text -->
+        <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card">
+                  <div class="card-body">
+                    <h4>{{title}}</h4>
+                    <p> {{desc}} </p>
+                    <hr>
+                    <h5> Price Curves </h5>
+                    <p style ="font-size:12px"> {{instr}} </p>
+                    <div class="text-center" style="float:left">
+                      <button class="btn btn-sm btn-primary" type="button" onclick="location.href = 'download'">Download</button>
+                    </div>
+                    <br>
+                    <br>
+                    <form action="" method="">
+                    {% csrf_token %}
+                    <div class="row">
+                      <div class="form-group col-md-2">
+                        <label class="col-form-label" for="select">Select Raw Material</label>
+                        <select class="form-control form-control-sm" id="select" name="select">
+                          <option value="0">Please select</option>
+                          {% for key, item in raw_materials.items %}
+                            {% with "select"|add:key as temp %}
+                              <option value="{{temp}}"> {{item}} </option>
+                            {% endwith %}
+                          {% endfor %}
+                        </select>
+                      </div>
+                      <div class="col-md-9">
+                        <div id="container"  style="min-width: 310px; height: 400px; margin: 0 auto" class="border">
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-md-9 col-form-label">Checkboxes</label>
+                          <div class="col-md-2 col-form-label">
+                            {% for key, item in raw_materials.items %}
+                              {% with "check"|add:key as temp %}
+                                <div class="form-check checkbox">
+                                  <input class="form-check-input" id="{{temp}}" type="checkbox" value ="">
+                                  <label class="form-check-label" for="{{temp}}"> {{item}} </label>
+                                </div>
+                              {% endwith %}
+                            {% endfor %}
+                          </div>
+                          <div class="col-md-1 col-form-label">
+                            {% for key, item in raw_materials.items %}
+                              {% with "var"|add:key as temp %}
+                                <div class="form-check checkbox">
+                                  <input class="form-check-input" id="{{temp}}" type="checkbox" value ="">
+                                  <label class="form-check-label" for="{{temp}}"> {% cycle '0%' '5%' '10%' %}  </label>
+                                </div>
+                              {% endwith %}
+                            {% endfor %}
+                          </div>
+                        </div>
+                      </div>
+                      
+                    </div>
+                    <hr>
+                    <h5> Current Period Prices </h5>
+                    <p style ="font-size:12px"> {{instr}} </p>
+                    {% for key, item in raw_materials.items %}
+                    <div class="row">
+                      <div class="form-group row col-md-4">
+                        <label class="col-form-label col-md-4" for="prependedInput">{{item}}</label>
+                        <div class="controls col">
+                          <div class="input-prepend input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">$</span>
+                            </div>
+                            <input class="form-control" type="number" placeholder="Input price">
+                          </div>
+                          <p class="help-block">Unit: USD/MT</p>
+                        </div>
+                      </div>
+                      <div class="form-group row col-md-4">
+                        <label class="col-form-label col-md-4" for="prependedInput">Premium / discount</label>
+                        <div class="controls col">
+                          <div class="input-prepend input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">$</span>
+                            </div>
+                            <input class="form-control" type="number" placeholder="Input premium">
+                          </div>
+                          <p class="help-block">Unit: USD/MT</p>
+                        </div>
+                      </div>
+                      <div class="form-group row col-md-4">
+                        <label class="col-form-label col-md-5" for="prependedInput">Transportation Cost</label>
+                        <div class="controls col">
+                          <div class="input-prepend input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">$</span>
+                            </div>
+                            <input class="form-control" type="number" placeholder="Input costs">
+                          </div>
+                          <p class="help-block">Unit: USD/MT</p>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <!-- Scripts for page to run.. -->
+  <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@coreui/coreui/dist/js/coreui.min.js"></script>
+  <script src="https://code.highcharts.com/highcharts.js"> </script>
+  <script src="https://code.highcharts.com/modules/exporting.js"> </script>
+  <script src="https://code.highcharts.com/modules/export-data.js"> </script>
+  <script language="javascript">
+    // values = {{values|safe}};
+    Highcharts.chart('container', {{chart|safe}})
+  </script>
+  </body>
+</html>
